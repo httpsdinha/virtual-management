@@ -1,0 +1,27 @@
+{
+  "name": "my-restaurant-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "serve": "cd frontend && npm run serve",
+    "electron:serve": "cd frontend && vue-cli-service electron:serve",
+    "electron:build": "cd frontend && vue-cli-service electron:build",
+    "start": "npm run serve && npm run electron:serve",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@electron-forge/cli": "^7.4.0",
+    "@vitejs/plugin-vue": "^5.1.4",
+    "@vue/cli-service": "^5.0.8",
+    "@vue/compiler-sfc": "^3.5.6",
+    "electron": "^32.1.1",
+    "electron-builder": "^25.0.5"
+  },
+  "dependencies": {
+    "express": "^4.21.0"
+  }
+}
