@@ -52,11 +52,11 @@ export default {
     align-items: center;
 }
   
-  .right-side {
+.right-side {
   z-index: 2;
   flex: 1;
   min-width: 300px; /* Defina um tamanho mínimo */
-  background-image: url('@/assets/pizza.jpg');(imagem de fundo)
+  background-image: url('@/assets/pizza.jpg');
   background-size: cover;
   background-position: center;
   box-shadow: 0 0 50px rgba(13, 13, 13, 0.7);
