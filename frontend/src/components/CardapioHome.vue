@@ -35,10 +35,10 @@
                 <hr class="divider">
                 <h1>MENU</h1>
                 <div class="menus-botton">
-                    <button class="transparent-button" @click="goToPage('/')">
+                    <button class="transparent-button" @click="goToPage('/cardapiohome')">
                     DESTAQUES
                     </button>
-                    <button class="transparent-button" @click="goToPage('/')">
+                    <button class="transparent-button" @click="goToPage('/cardapiopizza')">
                     PIZZAS
                     </button>
                     <button class="transparent-button" @click="goToPage('/')">
@@ -75,16 +75,18 @@
     }
 
     .header {
+        margin-top: 1px;
         width: 75%; 
-        padding: 20px;
-        margin-bottom: 20px;
+        padding: 10px;
+        margin-bottom: 0.5vh;
         margin-left: 35vh;
     }
 
     /* Container para o h1 e os botões */
     .header-content {
+        margin-top: 1px;
         display: flex;
-        align-items: center; /* Alinha o h1 e os botões na mesma linha */
+        align-items: center; 
     }
 
     .header-botao {
@@ -111,13 +113,13 @@
     .divider{
         width: 60%;
         border: 1px solid rgba(57, 79, 20, 0.3);
-        margin: 20px 0;
+        margin: 5px 0;
     }
     /* Divider abaixo dos botões */
     .divider1 {
         width: 100%;
         border: 1px solid rgba(57, 79, 20, 0.3);
-        margin: 5px 0;
+        margin: 1px;
     }
 
     /* Opções após o divisor */
@@ -137,7 +139,7 @@
 
     .destaque-secundario1, .destaque-secundario2 {
         width: 35vw; 
-        height: 35vh; 
+        height: 30vh; 
         overflow: hidden; 
         display: flex; 
         justify-content: center; 
@@ -186,7 +188,7 @@
 
     .menus-botton {
         display: flex;
-        margin-top: 15%;
+        margin-top: 2vh;
         flex-direction: column;
         align-items: center; 
         width: 100%;
@@ -215,34 +217,114 @@
         color: black;
     }
 
-    /* Responsividade */
-    @media (max-width: 768px) {
-        .menu-lateral {
-            width: 30vw;
-        }
-
-        .logo {
-            width: 20vw;
-        }
-
-        .transparent-button {
-            font-size: 4vw;
-            padding: 1rem;
-        }
+/* Estilos de responsividade para telas menores */
+@media (max-width: 768px) {
+    .main {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
     }
 
-    @media (max-width: 480px) {
-        .menu-lateral {
-            width: 40vw;
-        }
-
-        .logo {
-            width: 25vw;
-        }
-
-        .transparent-button {
-            font-size: 5vw;
-            padding: 0.8rem;
-        }
+    .header {
+        width: 100%;
+        margin-left: 0;
+        padding: 10px;
     }
+
+    .header-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .header-botao {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+
+    .header-botao img {
+        width: 6vw;
+    }
+
+    .destaques-secundarios {
+        flex-direction: column;
+        width: 90vw;
+        align-items: center;
+    }
+
+    .destaque-principal {
+        width: 90vw;
+    }
+
+    .destaque-secundario1, .destaque-secundario2 {
+        width: 90vw;
+        margin-top: 20px;
+    }
+
+    .menu-lateral {
+        width: 30vw;
+    }
+
+    .logo {
+        width: 20vw;
+    }
+
+    .transparent-button {
+        font-size: 4vw;
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .header-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .header-botao {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+
+    .header-botao img {
+        width: 8vw;
+    }
+
+    .destaque {
+        margin-top: 2vh;
+    }
+
+    .destaques-secundarios {
+        width: 100vw;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .destaque-principal {
+        width: 100vw;
+    }
+
+    .destaque-secundario1, .destaque-secundario2 {
+        width: 100vw;
+        margin-top: 2vh;
+    }
+
+    .menu-lateral {
+        width: 40vw;
+    }
+
+    .logo {
+        width: 25vw;
+    }
+
+    .transparent-button {
+        font-size: 5vw;
+        padding: 0.8rem;
+    }
+}
+
     </style>

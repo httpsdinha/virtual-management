@@ -7,6 +7,7 @@ const CardapioHome = () => import('../components/CardapioHome.vue');
 const ChamarGarcom = () => import('../components/ChamarGarcom.vue');
 const PagarConta = () => import('../components/PagarConta.vue');
 const LoginFunc = () => import('../components/LoginFunc.vue');
+const CardapioPizza = () => import('../components/CardapioPizza.vue');
 
 // Obter a URL base a partir da variável de ambiente
 const baseUrl = process.env.VUE_APP_BASE_URL || '/';
@@ -38,6 +39,11 @@ const router = createRouter({
       path: '/login',
         name: 'login',
         component: LoginFunc,
+    },
+    {
+      path: '/cardapiopizza',
+        name: 'cardapiopizza',
+        component: CardapioPizza,
     }
   ],
 });
