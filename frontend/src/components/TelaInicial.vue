@@ -116,17 +116,19 @@ export default {
 }
 
 .login-button {
-  position: absolute; 
-  bottom: 20px; 
-  left: 20px; 
-  width: 50px; 
-  height: 50px; 
-  cursor: pointer;
+    position: absolute; 
+    bottom: 10px; 
+    left: 10px; /* Ajustado para ser mais responsivo */
+    width: 3vw; /* Usando vw para responsividade */
+    height: 3vw; /* Usando vw para responsividade */
+    cursor: pointer;
+    border: none;
+    background: transparent;
 }
 
 .login-button img {
-  width: 100%; 
-  height: auto;
+    width: 100%; 
+    height: auto;
 }
   </style>
   
