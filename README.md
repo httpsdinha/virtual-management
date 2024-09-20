@@ -6,6 +6,10 @@
 npm install
 ```
 
+```
+npm i @vue/cli-plugin-babel -D
+```
+
 ### Inicinado Node.js
 ```
 node src/server/app.js
