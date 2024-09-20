@@ -41,10 +41,10 @@
                     <button class="transparent-button" @click="goToPage('/cardapiopizza')">
                     PIZZAS
                     </button>
-                    <button class="transparent-button" @click="goToPage('/')">
+                    <button class="transparent-button" @click="goToPage('/cardapiobebida')">
                     BEBIDAS
                     </button>
-                    <button class="transparent-button" @click="goToPage('/')">
+                    <button class="transparent-button" @click="goToPage('/cardapiorodizio')">
                     RODÍZIO
                     </button>
                 </div>

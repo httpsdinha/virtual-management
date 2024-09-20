@@ -1,8 +1,8 @@
 <template>
     <div class="main">
-                <header class="header">
+        <header class="header">
                 <div class="header-content">
-                    <h1>PIZZAS</h1>
+                    <h1>BEBIDAS</h1>
                     <div class="header-botao">
                         <button class="header-icon-button" @click="goToPage('/')">
                             <img src="@/assets/home.png" alt="Home Icon" class="home-icon" />
@@ -17,22 +17,7 @@
                 </div>
                 <hr class="divider1">
             </header>
-            <div class="tipo-pizza">
-                <button class="sabor-pizza">
-                    <img src="@/assets/1pedacos.png" alt="sabor" class="sabor" />
-                    <h2>1 SABOR</h2>
-                </button>
-                <button class="sabor-pizza">
-                    <img src="@/assets/2pedacos.png" alt="sabor" class="sabor" />
-                    <h2>2 SABORES</h2>
-                </button>
-                <button class="sabor-pizza">
-                    <img src="@/assets/4pedacos.png" alt="sabor" class="sabor" />
-                    <h2>4 SABORES</h2>
-                </button>
-            </div>
-            <hr class="divider2">
-            
+    </div>
     <nav class="menu-lateral">
                 <img src="@/assets/logo.png" alt="Logo" class="logo">
                 <hr class="divider">
@@ -47,16 +32,15 @@
                     <button class="transparent-button" @click="goToPage('/cardapiobebida')">
                     BEBIDAS
                     </button>
-                    <button class="transparent-button" @click="goToPage('/')">
+                    <button class="transparent-button" @click="goToPage('/cardapiorodizio')">
                     RODÍZIO
                     </button>
                 </div>
             </nav>
-    </div>
 </template>
 <script>
 export default {
-    name: 'CardapioPizza',
+    name: 'CardapioBebidas',
     methods: {
         goToPage(route) {
             this.$router.push(route);
@@ -64,7 +48,6 @@ export default {
     }
 }
 </script>
-
 <style scoped>
     .main {
         position: relative;
@@ -76,90 +59,8 @@ export default {
         font-family: 'Mukta Mahee';
     }
 
-.header {
-        margin-top: 1px;
-        width: 75%; 
-        padding: 10px;
-        margin-bottom: 0.5vh;
-        margin-left: 35vh;
-    }
-.tipo-pizza{
-    margin-left: 35vh;
-}
-
-    /* Container para o h1 e os botões */
-    .header-content {
-        margin-top: 1px;
-        display: flex;
-        align-items: center; 
-    }
-    .tipo-pizza {
-    display: flex;
-    align-items: center;
-    justify-content: center; 
-    margin-top: 2vh;
-}
-.tipo-pizza h2{
-    font-size: 0.9rem;
-}
-
-.sabor-pizza {
-    background: none; 
-    border: none; 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0 10px; 
-    cursor: pointer;    
-}
-
-.tipo-pizza img {
-    width: 7vw;
-    height: auto;
-}
-
-    .header-botao {
-        display: flex; 
-        align-items: center; 
-        margin-left: auto; 
-    }
-
-    /* Botão sem fundo e borda */
-    .header-icon-button {
-        background: transparent;
-        border: none;
-        padding: 0;
-        cursor: pointer;
-    }
-
-    /* Imagem do botão */
-    .header-botao img {
-        margin-left: 20px;
-        width: 2vw;
-        height: auto;
-    }
-
-    .divider2{
-        width: 75%;
-        border: 1px solid rgba(57, 79, 20, 0.3);
-        margin-left: 37vh;
-    
-    }
-
-    .divider{
-        width: 60%;
-        border: 1px solid rgba(57, 79, 20, 0.3);
-        margin: 5px 0;
-    }
-    /* Divider abaixo dos botões */
-    .divider1 {
-        width: 100%;
-        border: 1px solid rgba(57, 79, 20, 0.3);
-        margin: 1px;
-    }
-
-    /* Estilos da navegação lateral */
-    .menu-lateral {
+        /* Estilos da navegação lateral */
+        .menu-lateral {
         position: absolute;
         top: 0;
         left: 0;
@@ -211,7 +112,58 @@ export default {
     color: black;
 }
 
-.sabor-pizza:hover{
-    background: rgba(94, 130, 33, 0.2);
-}
+.header {
+        margin-top: 1px;
+        width: 75%; 
+        padding: 10px;
+        margin-bottom: 0.5vh;
+        margin-left: 35vh;
+    }
+
+        /* Container para o h1 e os botões */
+        .header-content {
+        margin-top: 1px;
+        display: flex;
+        align-items: center; 
+    }
+    .header-botao {
+        display: flex; 
+        align-items: center; 
+        margin-left: auto; 
+    }
+
+    /* Botão sem fundo e borda */
+    .header-icon-button {
+        background: transparent;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+    }
+
+    /* Imagem do botão */
+    .header-botao img {
+        margin-left: 20px;
+        width: 2vw;
+        height: auto;
+    }
+
+    .divider2{
+        width: 75%;
+        border: 1px solid rgba(57, 79, 20, 0.3);
+        margin-left: 37vh;
+    
+    }
+
+    .divider{
+        width: 60%;
+        border: 1px solid rgba(57, 79, 20, 0.3);
+        margin: 5px 0;
+    }
+    /* Divider abaixo dos botões */
+    .divider1 {
+        width: 100%;
+        border: 1px solid rgba(57, 79, 20, 0.3);
+        margin: 1px;
+    }
+
 </style>
