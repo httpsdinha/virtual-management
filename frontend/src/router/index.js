@@ -6,6 +6,7 @@ const TelaInicial = () => import('../components/TelaInicial.vue');
 const CardapioHome = () => import('../components/CardapioHome.vue');
 const ChamarGarcom = () => import('../components/ChamarGarcom.vue');
 const PagarConta = () => import('../components/PagarConta.vue');
+const LoginFunc = () => import('../components/LoginFunc.vue');
 
 // Obter a URL base a partir da variável de ambiente
 const baseUrl = process.env.VUE_APP_BASE_URL || '/';
@@ -32,6 +33,11 @@ const router = createRouter({
       path:'/conta',
         name: 'conta',
         component: PagarConta,
+    },
+    {
+      path: '/login',
+        name: 'login',
+        component: LoginFunc,
     }
   ],
 });
