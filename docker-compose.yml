@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres_container
+    environment:
+      POSTGRES_USER: amanda
+      POSTGRES_PASSWORD: 2208
+      POSTGRES_DB: admin_login
+    ports:
+      - "2222:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - db_network
+volumes:
+  postgres_data:
+networks:
+  db_network:

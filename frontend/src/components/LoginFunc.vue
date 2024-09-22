@@ -7,7 +7,7 @@
                     <input type="text" placeholder="Usuário" autocomplete="off" />
                     <input type="password" placeholder="Senha" autocomplete="off" />
                 </div>
-                <button class="entrar-button" @click="goToPage('/cardapiohome')">ENTRAR</button>
+                <button class="entrar-button" @click="goToPage('/funcionario')">ENTRAR</button>
             </div>
         </div>
         <button class="voltar-button" @click="goToPage('/')">

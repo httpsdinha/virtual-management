@@ -10,6 +10,7 @@ const LoginFunc = () => import('../components/LoginFunc.vue');
 const CardapioPizza = () => import('../components/CardapioPizza.vue');
 const CardapioBebida = () => import('../components/CardapioBebidas.vue');
 const CardapioRodizio = () => import('../components/CardapioRodizio.vue');
+const TelaFuncionario = () => import('../components/TelaFuncionario.vue');
 
 // Obter a URL base a partir da variável de ambiente
 const baseUrl = process.env.VUE_APP_BASE_URL || '/';
@@ -56,6 +57,11 @@ const router = createRouter({
       path: '/cardapiorodizio',
         name: 'cardapiorodizio',
         component: CardapioRodizio,
+    },
+    {
+      path: '/funcionario',
+        name: 'funcionario',
+        component: TelaFuncionario,
     }
   ],
 });
