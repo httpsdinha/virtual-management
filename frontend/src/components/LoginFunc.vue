@@ -4,10 +4,25 @@
             <div class="login">
                 <h1>ENTRAR</h1>
                 <div class="login-input">
-                    <input type="text" placeholder="Usuário" autocomplete="off" />
-                    <input type="password" placeholder="Senha" autocomplete="off" />
+                    <input 
+                        type="text" 
+                        placeholder="Usuário" 
+                        v-model="username" 
+                        autocomplete="off" 
+                    />
+                    <input 
+                        type="password" 
+                        placeholder="Senha" 
+                        v-model="password" 
+                        autocomplete="off" 
+                    />
                 </div>
-                <button class="entrar-button" @click="goToPage('/funcionario')">ENTRAR</button>
+                <button 
+                    class="entrar-button" 
+                    @click="login"
+                > 
+                    ENTRAR 
+                </button>
             </div>
         </div>
         <button class="voltar-button" @click="goToPage('/')">
@@ -17,17 +32,42 @@
 </template>
 
 <script>
+import axios from 'axios'; 
+
 export default {
     name: 'LoginFunc',
+    data() {
+        return {
+            username: '', 
+            password: ''  
+        };
+    },
     methods: {
         goToPage(route) {
             this.$router.push(route);
+        },
+        async login() {
+            try {
+                const response = await axios.post('http://localhost:3000/auth/login', {
+                    username: this.username,
+                    password: this.password
+                });
+                
+                
+                if (response.data.message === 'Login realizado com sucesso!') {
+                    this.goToPage('/funcionario'); 
+                }
+            } catch (error) {
+                console.error('Erro no login:', error);
+                alert('Usuário ou senha inválidos.'); 
+            }
         }
     }
 }
 </script>
 
 <style>
+/* Seu estilo existente */
 .main {
     position: relative;
     display: flex;
