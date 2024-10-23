@@ -1,35 +1,38 @@
-<template>
-    <div class="main">
-        <div class="container-login">
-            <div class="login">
-                <h1>ENTRAR</h1>
-                <div class="login-input">
-                    <input 
-                        type="text" 
-                        placeholder="Usuário" 
-                        v-model="username" 
-                        autocomplete="off" 
-                    />
-                    <input 
-                        type="password" 
-                        placeholder="Senha" 
-                        v-model="password" 
-                        autocomplete="off" 
-                    />
+    <template>
+        <div class="main">
+            <div class="container-login">
+                <div class="login">
+                    <h1>ENTRAR</h1>
+                    <div class="login-input">
+                        <input 
+                            type="text" 
+                            placeholder="Usuário" 
+                            v-model="username" 
+                            autocomplete="off" 
+                            @keyup.enter="login"
+                        />
+                        <input 
+                            type="password" 
+                            placeholder="Senha" 
+                            v-model="password" 
+                            autocomplete="off" 
+                            @keyup.enter="login"
+                        />
+                    </div>
+                    <button 
+                        class="entrar-button" 
+                        @click="login"
+
+                    > 
+                        ENTRAR 
+                    </button>
                 </div>
-                <button 
-                    class="entrar-button" 
-                    @click="login"
-                > 
-                    ENTRAR 
-                </button>
             </div>
+            <button class="voltar-button" @click="goToPage('/')">
+                <img src="@/assets/voltar.png" alt="Voltar" class="Voltar">
+            </button>
         </div>
-        <button class="voltar-button" @click="goToPage('/')">
-            <img src="@/assets/voltar.png" alt="Voltar" class="Voltar">
-        </button>
-    </div>
-</template>
+    </template>
 
 <script>
 import axios from 'axios'; 

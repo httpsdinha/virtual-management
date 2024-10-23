@@ -3,7 +3,7 @@ const pool = require('../config/db');
 exports.getUsers = async (req, res) => {
     try {
       const { rows } = await pool.query('SELECT * FROM admin_user'); 
-      return res.json(rows); // Retorna a lista de usuários no formato JSON
+      return res.json(rows); 
     } catch (error) {
       console.error('Erro ao buscar usuários:', error);
       return res.status(500).json({ message: 'Erro no servidor' });
