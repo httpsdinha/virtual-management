@@ -16,7 +16,7 @@
                PAGAR CONTA
               </button>
           </div>
-          <div class="login-button" @click="goToPage('/login')">
+          <div class="login-button" @click="goToPage('/funcionario')">
             <img src="@/assets/login.png" alt="Login Icon" class="button-icon" />
           </div>
         </div>
@@ -55,7 +55,7 @@ export default {
 .right-side {
   z-index: 2;
   flex: 1;
-  min-width: 300px; /* Defina um tamanho mínimo */
+  min-width: 300px; 
   background-image: url('@/assets/pizza.jpg');
   background-size: cover;
   background-position: center;
@@ -118,9 +118,9 @@ export default {
 .login-button {
     position: absolute; 
     bottom: 10px; 
-    left: 10px; /* Ajustado para ser mais responsivo */
-    width: 3vw; /* Usando vw para responsividade */
-    height: 3vw; /* Usando vw para responsividade */
+    left: 10px;
+    width: 3vw;
+    height: 3vw; 
     cursor: pointer;
     border: none;
     background: transparent;
