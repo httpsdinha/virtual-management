@@ -1,4 +1,4 @@
-const pool = require('../config/db');
+const menuItemModel = require('../models/menuItemModel');
 
 const addMenuItem = async (req, res) => {
   const { nome, descricao, preco, tipo, categoria } = req.body;
@@ -17,11 +17,8 @@ const addMenuItem = async (req, res) => {
   }
 
   try {
-    const newItem = await pool.query(
-      'INSERT INTO menu_items (nome, descricao, preco, tipo, categoria) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-      [nome, descricao, preco, tipo, categoria]
-    );
-    res.status(201).json({ message: 'Item adicionado com sucesso', item: newItem.rows[0] });
+    const newItem = await menuItemModel.addMenuItem(nome, descricao, preco, tipo, categoria);
+    res.status(201).json({ message: 'Item adicionado com sucesso', item: newItem });
   } catch (error) {
     console.error('Erro ao adicionar item ao cardápio:', error);
     res.status(500).json({ error: 'Erro ao adicionar item ao cardápio' });
