@@ -59,7 +59,7 @@
             </div>
           <div>
             <label for="descricao" class="descricao-label">Descrição</label>
-            <textarea id="descricao" v-model="produto.descricao"></textarea>
+            <textarea maxlength="36" id="descricao" v-model="produto.descricao"></textarea>
           </div>
           <button type="submit">Adicionar</button>
         </form>
@@ -98,6 +98,7 @@ export default {
     adicionarProduto() {
       console.log("Produto adicionado:", this.produto);
       this.enviarProduto();
+      alert('Produto adicionado com sucesso!');
     },
     goToPage(route) {
       this.$router.push(route);
@@ -305,6 +306,7 @@ export default {
   border-radius: 5px;
   border: 1px solid #ccc;
   background-color: #d9d9d9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 .form-container {
   margin-top: 2rem;
@@ -347,4 +349,12 @@ export default {
   height: 8vh; /* Ajuste a altura conforme necessário */
 }
 
+input, select {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adiciona sombra aos inputs */
+}
 </style>

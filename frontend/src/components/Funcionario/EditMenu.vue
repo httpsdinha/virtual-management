@@ -30,30 +30,68 @@
         </div>
         <hr class="divider1">
       </header>
+      <div class="tipos-button">
+        <button :class="{'active-button': activeButton === 'pizza'}" @click="fetchMenuItems('pizza')">PIZZA</button>
+        <button :class="{'active-button': activeButton === 'bebida'}" @click="fetchMenuItems('bebida')">BEBIDA</button>
+      </div>
+      <div class="menu-items">
+      <div v-for="item in menuItems" :key="item.id" class="menu-item">
+        <div class="menu-item-content">
+          <div class="menu-item-text">
+            <h2>{{ item.nome }}</h2>
+            <p>{{ item.descricao }}</p>
+            <p>R$ {{ item.preco }}</p>
+          </div>
+            <button class="edit-button" @click="goToPage('/alteraritem')" >
+            <img src="@/assets/lapis.png" alt="Edit Icon" class="edit-icon" />
+            </button>
+        </div>
+      </div>
+    </div>
   </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
-    name: "EditMenu",
-    methods: {
-        goToPage(route) {
-            this.$router.push(route);
-        },
+  data() {
+    return {
+      menuItems: [],
+      activeButton: 'pizza' // Estado para rastrear o botão ativo
+    };
+  },
+  methods: {
+    goToPage(page) {
+      this.$router.push(page);
     },
+    async fetchMenuItems(tipo) {
+      try {
+        const response = await axios.get(`http://localhost:3000/menu/list?tipo=${tipo}`);
+        this.menuItems = response.data;
+        this.activeButton = tipo; // Atualiza o botão ativo
+      } catch (error) {
+        console.error('Erro ao buscar itens do menu:', error);
+      }
+    }
+  },
+  created() {
+    this.fetchMenuItems('pizza'); // Carrega itens do tipo pizza por padrão
+  }
 };
 </script>
 
 <style scoped>
 .main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    background: #CCCBC9;
-    font-family: 'Mukta Mahee';
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background: #CCCBC9;
+  font-family: 'Mukta Mahee';
 }
+
 .menu-lateral {
   width: 15vw;
   background: linear-gradient(to bottom, #5E8221 0%, #394F14 100%);
@@ -64,16 +102,19 @@ export default {
   font-family: 'Mukta Mahee';
   font-weight: bold;
 }
+
 .logo {
   margin-top: 2vh;
   width: 10vw;
   height: auto;
 }
+
 .container {
   display: flex;
   height: 100vh;
   background: #CCCBC9;
 }
+
 .menus-botton {
   display: flex;
   margin-top: 2vh;
@@ -99,6 +140,7 @@ export default {
   justify-content: center;
   align-items: center;
 }
+
 .transparent-button:hover {
   background: #344D0B;
   color: black;
@@ -154,7 +196,7 @@ export default {
 }
 
 .editar {
-    background-color: #394F14; 
+  background-color: #394F14; 
   border: none;
   padding: 10px 20px;
   cursor: pointer;
@@ -169,8 +211,9 @@ export default {
   font-weight: 800;
   line-height: normal;
 }
+
 .adicionar {
-    background-color: transparent;
+  background-color: transparent;
   border: none;
   padding: 10px 20px;
   cursor: pointer;
@@ -184,8 +227,103 @@ export default {
   font-weight: 800;
   line-height: normal;
 }
+
 .adicionar:hover {
   background-color: #4D5E44;
   color: #000;
+}
+
+.bebida-button:hover {
+  background-color: #4D5E44;
+  color: #000;
+}
+
+.menu-items {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.menu-item {
+  margin-top: 1rem;
+  margin-right: 1.5rem;
+  border: 1px solid black;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.menu-item-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.menu-item-text {
+  flex-grow: 1;
+}
+
+h2 {
+  color: #000;
+  font-family: "Mukta Mahee";
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 166.142%;
+  margin: 0;
+  padding: 0;
+}
+
+.edit-button {
+  width: 2.8125rem;
+  height: 2.8125rem;
+  flex-shrink: 0;
+  border-radius: 0.3125rem;
+  background: #5E8221;
+  border: none;
+  cursor: pointer;
+}
+
+.edit-icon {
+  width:50%;
+  height: 40%;
+}
+
+p {
+  color: #2E2E2E;
+  font-family: "Mukta Mahee";
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 166.142%;
+  margin: 0;
+  padding: 0;
+}
+
+.tipos-button button {
+  background-color: transparent;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 1rem;
+  border-radius: 5px;
+  margin-right: 10px;
+  color: #000;
+  text-align: center;
+  font-family: "Mukta Mahee";
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+}
+
+.tipos-button .active-button {
+  background-color: #394F14;
+  color: white;
 }
 </style>

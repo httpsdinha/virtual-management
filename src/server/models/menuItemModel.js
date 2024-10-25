@@ -24,8 +24,28 @@ const deleteMenuItem = async (id) => {
   return rows[0];
 };
 
+const getMenuItems = async (tipo) => {
+  let query = 'SELECT * FROM menu_items';
+  const values = [];
+
+  if (tipo) {
+    query += ' WHERE tipo = $1';
+    values.push(tipo);
+  }
+
+  const { rows } = await pool.query(query, values);
+  return rows;
+};
+
+const getMenuItemById = async (id) => {
+  const { rows } = await pool.query('SELECT * FROM menu_items WHERE id = $1', [id]);
+  return rows;
+};
+
 module.exports = {
   addMenuItem,
   updateMenuItem,
   deleteMenuItem,
+  getMenuItems,
+  getMenuItemById
 };
