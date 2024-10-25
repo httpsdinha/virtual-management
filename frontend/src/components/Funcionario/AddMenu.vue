@@ -29,50 +29,116 @@
           </div>
         </div>
         <hr class="divider1">
-      </header>
-
-      <section class="tables">
-        <div class="mesa-botoes">
-          <button 
-            v-for="mesa in mesasVisiveis" 
-            :key="mesa.id" 
-            :class="{
-              'mesa-ocupada': mesa.status === 'ocupada', 
-              'mesa-finalizada': mesa.status === 'finalizada',
-              'mesa-livre': mesa.status === 'livre'
-              }" 
-            @click="selecionarMesa(mesa)">
-            MESA {{ mesa.id }}
-          </button>
-        </div>
-      </section>
-    </div>
-
-    <div v-if="mesaSelecionada" class="modal">
-      <div class="modal-content">
-        <span class="close" @click="fecharModal">&times;</span>
-        <h3>Alterar a mesa {{ mesaSelecionada.id }} para {{ novoStatus }}?</h3>
-        <select v-model="novoStatus">
-          <option value="ocupada">Ocupada</option>
-          <option value="finalizada">Finalizada</option>
-          <option value="livre">Livre</option>
-        </select>
-        <button @click="atualizarStatusMesa(mesaSelecionada.id, novoStatus)">Alterar</button>
-        <button @click="fecharModal">Cancelar</button>
+        <div class="form-container">
+          <div class="form-wrapper">
+          <form @submit.prevent="adicionarProduto">
+            <div>
+              <label for="nome">Nome</label>
+              <input type="text" id="nome" v-model="produto.nome" required />
+            </div>
+            <div class="inline-fields">
+            <div>
+              <label for="tipo">Tipo</label>
+              <select id="tipo" v-model="produto.tipo" required>
+                <option value="pizza">Pizza</option>
+                <option value="bebida">Bebida</option>
+              </select>
+             </div>
+          <div>
+            <label for="categoria">Categoria</label>
+            <select id="categoria" v-model="produto.categoria" required>
+              <option v-for="categoria in filteredCategorias" :key="categoria" :value="categoria">
+                {{ categoria }}
+              </option>
+            </select>
+          </div>
+          <div>
+            <label for="preco">Preço</label>
+            <input type="text" id="preco" v-model="produto.preco" @input="formatarPreco" required />
+          </div>
+            </div>
+          <div>
+            <label for="descricao" class="descricao-label">Descrição</label>
+            <textarea id="descricao" v-model="produto.descricao"></textarea>
+          </div>
+          <button type="submit">Adicionar</button>
+        </form>
       </div>
-    </div>
+        </div>
+    </header>
   </div>
+</div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
-    name: "EditMenu",
-    methods: {
-        goToPage(route) {
-            this.$router.push(route);
-        },
+  data() {
+    return {
+      produto: {
+        nome: '',
+        tipo: '',
+        categoria: '',
+        preco: '',
+        descricao: ''
+      },
+      categorias:{
+        pizza: ['Salgada', 'Doce'],
+        bebida: ['Refrigerante', 'Cerveja', 'Drinks', 'Agua']
+      }
+    };
+  },
+  computed: {
+    filteredCategorias() {
+      return this.categorias[this.produto.tipo] || [];
+    }
+  },
+  methods: {
+    adicionarProduto() {
+      console.log("Produto adicionado:", this.produto);
+      this.enviarProduto();
     },
+    goToPage(route) {
+      this.$router.push(route);
+    },
+    formatarPreco() {
+      let valor = this.produto.preco.replace(/[^\d]/g, '');
+      if (valor) {
+        valor = parseFloat(valor) / 100;
+        this.produto.preco = new Intl.NumberFormat('pt-BR', {
+          style: 'currency',
+          currency: 'BRL'
+        }).format(valor);
+      } else {
+        this.produto.preco = '';
+      }
+    },
+    async enviarProduto() {
+      try {
+        // Removendo a formatação de moeda
+        const precoNumerico = parseFloat(this.produto.preco.replace(/[^\d,]/g, '').replace(',', '.'));
+        
+        // Estrutura do produto para envio
+        const produtoParaEnvio = {
+          nome: this.produto.nome,
+          tipo: this.produto.tipo,
+          categoria: this.produto.categoria,
+          preco: precoNumerico,
+          descricao: this.produto.descricao
+        };
+
+        console.log('Produto para envio:', produtoParaEnvio); // Verifique os dados aqui
+
+        const response = await axios.post('http://localhost:3000/menu/add', produtoParaEnvio);
+        console.log('Produto enviado com sucesso:', response.data);
+      } catch (error) {
+        console.error('Erro ao enviar produto:', error.response ? error.response.data : error);
+      }
+    }
+  }
 };
+
 </script>
 
 <style scoped>
@@ -218,4 +284,67 @@ export default {
   background-color: #4D5E44;
   color: #000;
 }
+.form-container button:hover {
+  background-color: #3a4d1a;
+}
+.form-container button {
+  background-color: #4a5d23;
+  color: #d9d9d9;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 20wh;
+  margin-left: 10vw;
+  font-size: 16px;
+}
+.form-container input, .form-container select, .form-container textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 1.2rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #d9d9d9;
+}
+.form-container {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh; 
+  width: 50vw;
+  margin: 0 auto;
+  font-family: "Mukta Mahee";
+  font-size: 1.3rem;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.form-container label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.form-wrapper {
+  width: 50%; /* Ajuste a largura conforme necessário */
+}
+.inline-fields {
+  display: flex;
+  justify-content: space-between;
+}
+
+.inline-fields > div {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.inline-fields > div:last-child {
+  margin-right: 0;
+}
+
+.form-container textarea#descricao {
+  height: 8vh; /* Ajuste a altura conforme necessário */
+}
+
 </style>

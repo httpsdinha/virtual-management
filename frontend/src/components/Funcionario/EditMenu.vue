@@ -17,7 +17,7 @@
     <div class="main">
       <header class="header">
         <div class="header-content">
-          <h1>COMANDAS</h1>
+          <h1>ALTERAR</h1>
           <div class="botao-status">
             <button class="editar" @click="goToPage('/alterarmenu')">EDITAR</button>
             <button class="adicionar"  @click="goToPage('/adicionarmenu')">ADICIONAR</button>
@@ -30,37 +30,7 @@
         </div>
         <hr class="divider1">
       </header>
-
-      <section class="tables">
-        <div class="mesa-botoes">
-          <button 
-            v-for="mesa in mesasVisiveis" 
-            :key="mesa.id" 
-            :class="{
-              'mesa-ocupada': mesa.status === 'ocupada', 
-              'mesa-finalizada': mesa.status === 'finalizada',
-              'mesa-livre': mesa.status === 'livre'
-              }" 
-            @click="selecionarMesa(mesa)">
-            MESA {{ mesa.id }}
-          </button>
-        </div>
-      </section>
-    </div>
-
-    <div v-if="mesaSelecionada" class="modal">
-      <div class="modal-content">
-        <span class="close" @click="fecharModal">&times;</span>
-        <h3>Alterar a mesa {{ mesaSelecionada.id }} para {{ novoStatus }}?</h3>
-        <select v-model="novoStatus">
-          <option value="ocupada">Ocupada</option>
-          <option value="finalizada">Finalizada</option>
-          <option value="livre">Livre</option>
-        </select>
-        <button @click="atualizarStatusMesa(mesaSelecionada.id, novoStatus)">Alterar</button>
-        <button @click="fecharModal">Cancelar</button>
-      </div>
-    </div>
+  </div>
   </div>
 </template>
 

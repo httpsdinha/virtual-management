@@ -4,16 +4,8 @@ const addMenuItem = async (req, res) => {
   const { nome, descricao, preco, tipo, categoria } = req.body;
 
   // Validação básica
-  if (!nome || !descricao || !preco || !tipo) {
+  if (!nome || !descricao || !preco || !tipo || !categoria) {
     return res.status(400).json({ error: 'Todos os campos são obrigatórios' });
-  }
-
-  if (tipo === 'pizza' && !['doce', 'salgada'].includes(categoria)) {
-    return res.status(400).json({ error: 'Categoria inválida para pizza' });
-  }
-
-  if (tipo === 'bebida' && !['refrigerante', 'agua', 'cerveja', 'drink'].includes(categoria)) {
-    return res.status(400).json({ error: 'Categoria inválida para bebida' });
   }
 
   try {
@@ -30,16 +22,8 @@ const updateMenuItem = async (req, res) => {
   const { nome, descricao, preco, tipo, categoria } = req.body;
 
   // Validação básica
-  if (!nome || !descricao || !preco || !tipo) {
+  if (!nome || !descricao || !preco || !tipo || !categoria) {
     return res.status(400).json({ error: 'Todos os campos são obrigatórios' });
-  }
-
-  if (tipo === 'pizza' && !['doce', 'salgada'].includes(categoria)) {
-    return res.status(400).json({ error: 'Categoria inválida para pizza' });
-  }
-
-  if (tipo === 'bebida' && !['refrigerante', 'agua', 'cerveja', 'drink'].includes(categoria)) {
-    return res.status(400).json({ error: 'Categoria inválida para bebida' });
   }
 
   try {
@@ -74,5 +58,5 @@ const deleteMenuItem = async (req, res) => {
 module.exports = {
   addMenuItem,
   updateMenuItem,
-  deleteMenuItem,
+  deleteMenuItem
 };
