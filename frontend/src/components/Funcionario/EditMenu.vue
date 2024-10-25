@@ -1,14 +1,14 @@
 <template>
-  <div class="container">
+<div class="container">
     <nav class="menu-lateral">
       <img src="@/assets/logo.png" alt="Logo" class="logo" />
       <hr class="divider" />
       <h1>MENU</h1>
       <div class="menus-botton">
-        <button class="transparent-button" @click="goToPage('/cardapiohome')">
+        <button class="transparent-button" @click="goToPage('/funcionario')">
           COMANDAS
         </button>
-        <button class="transparent-button" @click="goToPage('/cardapiopizza')">
+        <button class="transparent-button" @click="goToPage('/alterarmenu')">
           ALTERAR
         </button>
       </div>
@@ -19,8 +19,8 @@
         <div class="header-content">
           <h1>COMANDAS</h1>
           <div class="botao-status">
-            <button class="andamento">EM ANDAMENTO</button>
-            <button class="livre" @click="goToPage('/funcionariolivres')">LIVRE </button>
+            <button class="editar" @click="goToPage('/alterarmenu')">EDITAR</button>
+            <button class="adicionar"  @click="goToPage('/adicionarmenu')">ADICIONAR</button>
           </div>
           <div class="header-botao">
             <button class="header-icon-button" @click="goToPage('/')">
@@ -47,7 +47,7 @@
         </div>
       </section>
     </div>
-  
+
     <div v-if="mesaSelecionada" class="modal">
       <div class="modal-content">
         <span class="close" @click="fecharModal">&times;</span>
@@ -65,70 +65,25 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
-  data() {
-    return {
-      mesas: [],
-      mesaSelecionada: null,
-      novoStatus: ''
-    };
-  },
-  computed: {
-    mesasVisiveis() {
-      return this.mesas.filter(mesa => mesa.status !== 'livre');
-    }
-  },
-  methods: {
-    goToPage(route) {
+    name: "EditMenu",
+    methods: {
+        goToPage(route) {
             this.$router.push(route);
+        },
     },
-    async fetchMesas() {
-      try {
-        const response = await axios.get('http://localhost:3000/tables');
-        this.mesas = response.data;
-      } catch (error) {
-        console.error('Erro ao buscar mesas:', error);
-      }
-    },
-    async atualizarStatusMesa(id, status) {
-      try {
-        const response = await axios.put(`http://localhost:3000/tables/${id}`, { status });
-        const mesaAtualizada = response.data;
-        this.mesas = this.mesas.map(mesa => 
-          mesa.id === mesaAtualizada.id ? mesaAtualizada : mesa
-        );
-        this.fecharModal();
-      } catch (error) {
-        console.error('Erro ao atualizar status da mesa:', error);
-      }
-    },
-    selecionarMesa(mesa) {
-      this.mesaSelecionada = mesa;
-      this.novoStatus = mesa.status;
-    },
-    fecharModal() {
-      this.mesaSelecionada = null;
-      this.novoStatus = '';
-    }
-  },
-  mounted() {
-    this.fetchMesas();
-  }
 };
 </script>
 
 <style scoped>
 .main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  background: #CCCBC9;
-  font-family: 'Mukta Mahee';
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background: #CCCBC9;
+    font-family: 'Mukta Mahee';
 }
-
 .menu-lateral {
   width: 15vw;
   background: linear-gradient(to bottom, #5E8221 0%, #394F14 100%);
@@ -174,7 +129,6 @@ export default {
   justify-content: center;
   align-items: center;
 }
-
 .transparent-button:hover {
   background: #344D0B;
   color: black;
@@ -221,7 +175,6 @@ export default {
   margin: 1px;
 }
 
-
 .botao-status {
   display: flex;
   justify-content: flex-end;
@@ -230,8 +183,8 @@ export default {
   color: #000;
 }
 
-.andamento {
-  background-color: #394F14; 
+.editar {
+    background-color: #394F14; 
   border: none;
   padding: 10px 20px;
   cursor: pointer;
@@ -246,9 +199,8 @@ export default {
   font-weight: 800;
   line-height: normal;
 }
-
-.livre {
-  background-color: transparent;
+.adicionar {
+    background-color: transparent;
   border: none;
   padding: 10px 20px;
   cursor: pointer;
@@ -262,74 +214,8 @@ export default {
   font-weight: 800;
   line-height: normal;
 }
-
-.livre:hover {
+.adicionar:hover {
   background-color: #4D5E44;
   color: #000;
-}
-
-.mesa-botoes {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  margin-top: 2rem;
-}
-
-.mesa-botoes button {
-  width: 10vw;
-  height: 10vh;
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin: 1rem;
-  cursor: pointer;
-  border-radius: 10px;
-  transition: background 0.3s;
-}
-
-.mesa-finalizada {
-  background-color: #5fad1f;
-  color: #000;
-}
-
-.mesa-ocupada {
-  background-color: #E9D53F;
-  color: #000;
-}
-
-.modal {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.4);
-  font-family: "Mukta Mahee";
-}
-
-.modal-content {
-  background-color: #fefefe;
-  padding: 40px;
-  border: 1px solid #888;
-  width: 300px;
-  text-align: center;
-}
-
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
 }
 </style>

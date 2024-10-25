@@ -5,10 +5,10 @@
       <hr class="divider" />
       <h1>MENU</h1>
       <div class="menus-botton">
-        <button class="transparent-button" @click="goToPage('/cardapiohome')">
+        <button class="transparent-button">
           COMANDAS
         </button>
-        <button class="transparent-button" @click="goToPage('/cardapiopizza')">
+        <button class="transparent-button" @click="goToPage('/alterarmenu')">
           ALTERAR
         </button>
       </div>
@@ -294,8 +294,12 @@ export default {
 }
 
 .mesa-ocupada {
-  background-color: #E9D53F;
+  background-color: #721818;
   color: #000;
+}
+
+.mesa-livre{
+  background-color: #394F14;
 }
 
 .modal {

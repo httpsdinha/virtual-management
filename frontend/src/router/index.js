@@ -3,15 +3,17 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 // Importar seus componentes dinamicamente
 const TelaInicial = () => import('../components/TelaInicial.vue');
-const CardapioHome = () => import('../components/CardapioHome.vue');
-const ChamarGarcom = () => import('../components/ChamarGarcom.vue');
-const PagarConta = () => import('../components/PagarConta.vue');
-const LoginFunc = () => import('../components/LoginFunc.vue');
-const CardapioPizza = () => import('../components/CardapioPizza.vue');
-const CardapioBebida = () => import('../components/CardapioBebidas.vue');
-const CardapioRodizio = () => import('../components/CardapioRodizio.vue');
-const TelaFuncionario = () => import('../components/TelaFuncionario.vue');
-const TelaTablesLivre = () => import('../components/TelaTablesLivre.vue');
+const CardapioHome = () => import('../components/Cliente/CardapioHome.vue');
+const ChamarGarcom = () => import('../components/Cliente/ChamarGarcom.vue');
+const PagarConta = () => import('../components/Cliente/PagarConta.vue');
+const LoginFunc = () => import('../components/Funcionario/LoginFunc.vue');
+const CardapioPizza = () => import('../components/Cliente/CardapioPizza.vue');
+const CardapioBebida = () => import('../components/Cliente/CardapioBebidas.vue');
+const CardapioRodizio = () => import('../components/Cliente/CardapioRodizio.vue');
+const TelaFuncionario = () => import('../components/Funcionario/TelaFuncionario.vue');
+const TelaTablesLivre = () => import('../components/Funcionario/TelaTablesLivre.vue');
+const EditMenu = () => import('../components/Funcionario/EditMenu.vue');
+const AddMenu = () => import('../components/Funcionario/AddMenu.vue');
 
 // Obter a URL base a partir da variável de ambiente
 const baseUrl = process.env.VUE_APP_BASE_URL || '/';
@@ -68,6 +70,16 @@ const router = createRouter({
       path: '/funcionariolivres',
         name: 'funcionariolivres',
         component: TelaTablesLivre,
+    },
+    {
+      path: '/alterarmenu',
+        name: 'alterarmenu',
+        component: EditMenu,
+    },
+    {
+      path: '/adicionarmenu',
+        name: 'addmenu',
+        component: AddMenu,
     }
   ],
 });
