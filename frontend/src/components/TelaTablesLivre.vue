@@ -19,8 +19,8 @@
         <div class="header-content">
           <h1>COMANDAS</h1>
           <div class="botao-status">
-            <button class="andamento">EM ANDAMENTO</button>
-            <button class="livre" @click="goToPage('/funcionariolivres')">LIVRE </button>
+            <button class="andamento" @click="goToPage('/funcionario')">EM ANDAMENTO</button>
+            <button class="livre">LIVRE</button>
           </div>
           <div class="header-botao">
             <button class="header-icon-button" @click="goToPage('/')">
@@ -47,7 +47,7 @@
         </div>
       </section>
     </div>
-  
+
     <div v-if="mesaSelecionada" class="modal">
       <div class="modal-content">
         <span class="close" @click="fecharModal">&times;</span>
@@ -77,12 +77,12 @@ export default {
   },
   computed: {
     mesasVisiveis() {
-      return this.mesas.filter(mesa => mesa.status !== 'livre');
+      return this.mesas.filter(mesa => mesa.status === 'livre');
     }
   },
   methods: {
     goToPage(route) {
-            this.$router.push(route);
+      this.$router.push(route);
     },
     async fetchMesas() {
       try {
@@ -139,16 +139,19 @@ export default {
   font-family: 'Mukta Mahee';
   font-weight: bold;
 }
+
 .logo {
   margin-top: 2vh;
   width: 10vw;
   height: auto;
 }
+
 .container {
   display: flex;
   height: 100vh;
   background: #CCCBC9;
 }
+
 .menus-botton {
   display: flex;
   margin-top: 2vh;
@@ -221,7 +224,6 @@ export default {
   margin: 1px;
 }
 
-
 .botao-status {
   display: flex;
   justify-content: flex-end;
@@ -231,7 +233,7 @@ export default {
 }
 
 .andamento {
-  background-color: #394F14; 
+  background-color: transparent;
   border: none;
   padding: 10px 20px;
   cursor: pointer;
@@ -248,7 +250,7 @@ export default {
 }
 
 .livre {
-  background-color: transparent;
+  background-color: #394F14; 
   border: none;
   padding: 10px 20px;
   cursor: pointer;
@@ -263,7 +265,7 @@ export default {
   line-height: normal;
 }
 
-.livre:hover {
+.andamento:hover {
   background-color: #4D5E44;
   color: #000;
 }
