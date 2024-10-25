@@ -13,6 +13,7 @@ const updateTableStatus = async (id, status) => {
   return rows[0];
 };
 
+
 const addTable = async (number, status) => {
   const { rows } = await pool.query(
     'INSERT INTO tables (number, status) VALUES ($1, $2) RETURNING *',

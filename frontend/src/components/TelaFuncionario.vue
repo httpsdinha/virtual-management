@@ -36,7 +36,11 @@
           <button 
             v-for="mesa in mesasVisiveis" 
             :key="mesa.id" 
-            :class="{'mesa-ocupada': mesa.status === 'ocupada', 'mesa-finalizada': mesa.status === 'finalizada'}" 
+            :class="{
+              'mesa-ocupada': mesa.status === 'ocupada', 
+              'mesa-finalizada': mesa.status === 'finalizada',
+              'mesa-livre': mesa.status === 'livre'
+              }" 
             @click="selecionarMesa(mesa)">
             MESA {{ mesa.id }}
           </button>
@@ -48,7 +52,12 @@
       <div class="modal-content">
         <span class="close" @click="fecharModal">&times;</span>
         <h3>Alterar a mesa {{ mesaSelecionada.id }} para {{ novoStatus }}?</h3>
-        <button @click="alterarStatus(mesaSelecionada.id, novoStatus)">Alterar</button>
+        <select v-model="novoStatus">
+          <option value="ocupada">Ocupada</option>
+          <option value="finalizada">Finalizada</option>
+          <option value="livre">Livre</option>
+        </select>
+        <button @click="atualizarStatusMesa(mesaSelecionada.id, novoStatus)">Alterar</button>
         <button @click="fecharModal">Cancelar</button>
       </div>
     </div>
@@ -56,15 +65,12 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
-      mesas: [
-        { id: 1, status: 'ocupada' },
-        { id: 2, status: 'finalizada' },
-        { id: 3, status: 'ocupada' },
-        { id: 4, status: 'finalizada' }
-      ],
+      mesas: [],
       mesaSelecionada: null,
       novoStatus: ''
     };
@@ -75,29 +81,37 @@ export default {
     }
   },
   methods: {
-    selecionarMesa(mesa) {
-      this.mesaSelecionada = mesa;
-      if (mesa.status === 'ocupada') {
-        this.novoStatus = 'finalizada';
-      } else if (mesa.status === 'finalizada') {
-        this.novoStatus = 'livre';
-      } else if (mesa.status === 'livre') {
-        this.novoStatus = 'ocupada';
+    async fetchMesas() {
+      try {
+        const response = await axios.get('http://localhost:3000/tables');
+        this.mesas = response.data;
+      } catch (error) {
+        console.error('Erro ao buscar mesas:', error);
       }
     },
-    alterarStatus(id, novoStatus) {
-      const mesa = this.mesas.find(m => m.id === id);
-      if (mesa) {
-        mesa.status = novoStatus;
+    async atualizarStatusMesa(id, status) {
+      try {
+        const response = await axios.put(`http://localhost:3000/tables/${id}`, { status });
+        const mesaAtualizada = response.data;
+        this.mesas = this.mesas.map(mesa => 
+          mesa.id === mesaAtualizada.id ? mesaAtualizada : mesa
+        );
+        this.fecharModal();
+      } catch (error) {
+        console.error('Erro ao atualizar status da mesa:', error);
       }
-      this.mesaSelecionada = null;
+    },
+    selecionarMesa(mesa) {
+      this.mesaSelecionada = mesa;
+      this.novoStatus = mesa.status;
     },
     fecharModal() {
       this.mesaSelecionada = null;
-    },
-    goToPage(route) {
-      this.$router.push(route);
-    },
+      this.novoStatus = '';
+    }
+  },
+  mounted() {
+    this.fetchMesas();
   }
 };
 </script>
@@ -270,7 +284,7 @@ export default {
 }
 
 .mesa-finalizada {
-  background-color: #5E8221;
+  background-color: #5fad1f;
   color: #000;
 }
 
