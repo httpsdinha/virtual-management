@@ -43,3 +43,39 @@ npm run serve
 // Diretório Raiz
 npm run electron:serve
 ```
+
+## Comandos para o DB
+
+```
+CREATE TABLE menu_items (
+  id SERIAL PRIMARY KEY,
+  nome VARCHAR(255) NOT NULL,
+  descricao TEXT NOT NULL,
+  preco NUMERIC(10, 2) NOT NULL,
+  tipo VARCHAR(50) NOT NULL,
+  categoria VARCHAR(50) NOT NULL
+);
+```
+
+```
+CREATE TABLE tables (
+  id SERIAL PRIMARY KEY,
+  number INTEGER NOT NULL,
+  status VARCHAR(50) NOT NULL
+);
+
+INSERT INTO tables (number, status) VALUES (1, 'finalizada');
+INSERT INTO tables (number, status) VALUES (2, 'livre');
+INSERT INTO tables (number, status) VALUES (3, 'ocupada');
+```
+
+```
+CREATE TABLE menu_items (
+  id SERIAL PRIMARY KEY,
+  nome VARCHAR(255) NOT NULL,
+  descricao TEXT NOT NULL,
+  preco NUMERIC(10, 2) NOT NULL,
+  tipo VARCHAR(50) NOT NULL,
+  categoria VARCHAR(50) NOT NULL
+);
+```
