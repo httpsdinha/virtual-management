@@ -17,7 +17,7 @@
     <div class="main">
       <header class="header">
         <div class="header-content">
-          <h1>ALTERAR</h1>
+          <h1>ADICIONAR</h1>
           <div class="botao-status">
             <button class="editar" @click="goToPage('/alterarmenu')">EDITAR</button>
             <button class="adicionar"  @click="goToPage('/adicionarmenu')">ADICIONAR</button>
@@ -61,7 +61,7 @@
             <label for="descricao" class="descricao-label">Descrição</label>
             <textarea maxlength="40" id="descricao" v-model="produto.descricao"></textarea>
           </div>
-          <button type="submit">Adicionar</button>
+          <button class="salvar" type="submit">Adicionar</button>
         </form>
       </div>
         </div>
@@ -296,8 +296,10 @@ export default {
   border-radius: 5px;
   cursor: pointer;
   width: 20wh;
-  margin-left: 10vw;
   font-size: 16px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 .form-container input, .form-container select, .form-container textarea {
   width: 100%;
@@ -356,5 +358,58 @@ input, select {
   border: 1px solid #ccc;
   border-radius: 0.25rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adiciona sombra aos inputs */
+}
+
+
+/* Flexbox for layout */
+.form-container {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.form-wrapper {
+  width: 100%;
+  max-width: 600px;
+}
+
+.inline-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.inline-fields > div {
+  flex: 1;
+  min-width: 150px;
+}
+
+/* Media Queries for responsiveness */
+@media (max-width: 600px) {
+  .inline-fields {
+    flex-direction: column;
+  }
+}
+
+.botao-status, .header-botao {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 1rem;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  box-sizing: border-box;
+}
+
+textarea {
+  resize: vertical;
 }
 </style>

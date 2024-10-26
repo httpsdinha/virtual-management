@@ -338,4 +338,18 @@ export default {
   text-decoration: none;
   cursor: pointer;
 }
+
+@media (max-width: 768px) {
+  .andamento:hover {
+    background-color: #3C4A35;
+    color: #fff;
+  }
+}
+
+@media (max-width: 480px) {
+  .andamento:hover {
+    background-color: #2B3726;
+    color: #fff;
+  }
+}
 </style>

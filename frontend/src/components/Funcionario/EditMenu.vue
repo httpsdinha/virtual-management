@@ -75,7 +75,7 @@
           <option value="Doce">Doce</option>
           <option value="Refrigerante">Refrigerante</option>
           <option value="Cerveja">Cerveja</option>
-          <option value="Drinks">Drinks</option>
+          <option value="Doce">Doce</option>
           <option value="Agua">Água</option>
         </select>
         </div>
@@ -115,13 +115,13 @@ export default {
       try {
         const response = await axios.get(`http://localhost:3000/menu/list?tipo=${tipo}`);
         this.menuItems = response.data;
-        this.activeButton = tipo; // Atualiza o botão ativo
+        this.activeButton = tipo;
       } catch (error) {
         console.error('Erro ao buscar itens do menu:', error);
       }
     },
     openEditModal(item) {
-      this.selectedItem = { ...item }; // Clonar o item para edição
+      this.selectedItem = { ...item }; 
       this.showModal = true;
     },
     closeEditModal() {
@@ -133,7 +133,7 @@ export default {
         await axios.put(`http://localhost:3000/menu/update/${this.selectedItem.id}`, this.selectedItem);
         alert("Item atualizado com sucesso!");
         this.closeEditModal();
-        this.fetchMenuItems(this.activeButton); // Atualizar a lista de itens
+        this.fetchMenuItems(this.activeButton); 
       } catch (error) {
         console.error("Erro ao atualizar item:", error);
         alert("Não foi possível atualizar o item. Tente novamente.");
@@ -144,7 +144,7 @@ export default {
         await axios.delete(`http://localhost:3000/menu/delete/${this.selectedItem.id}`);
         alert("Item deletado com sucesso!");
         this.closeEditModal();
-        this.fetchMenuItems(this.activeButton); // Atualizar a lista de itens
+        this.fetchMenuItems(this.activeButton); 
       } catch (error) {
         console.error("Erro ao deletar item:", error);
         alert("Não foi possível deletar o item. Tente novamente.");
@@ -165,6 +165,7 @@ export default {
   padding: 20px;
   background: #CCCBC9;
   font-family: 'Mukta Mahee';
+  overflow-y: scroll;
 }
 
 .menu-lateral {
@@ -320,22 +321,22 @@ export default {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
+  justify-content: center;
 }
 
 .menu-item {
   margin-top: 1rem;
-  margin-right: 1.5rem;
   border: 1px solid black;
   padding: 10px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   width: 23.5vw;
 }
 
 .menu-item-content {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   width: 100%;
   
@@ -510,5 +511,39 @@ input, select {
 
 .name {
   flex-grow: 1;
+}
+
+/* Media queries para responsividade */
+@media (max-width: 768px) {
+  .inline-fields {
+    flex-direction: column;
+    margin-right: 0;
+  }
+
+  .field {
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+
+  .salvar {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .delete-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .salvar {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .delete-container {
+    margin-top: 0.5rem;
+  }
 }
 </style>

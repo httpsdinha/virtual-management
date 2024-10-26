@@ -6,7 +6,6 @@ const TelaInicial = () => import('../components/TelaInicial.vue');
 const CardapioHome = () => import('../components/Cliente/CardapioHome.vue');
 const ChamarGarcom = () => import('../components/Cliente/ChamarGarcom.vue');
 const PagarConta = () => import('../components/Cliente/PagarConta.vue');
-const LoginFunc = () => import('../components/Funcionario/LoginFunc.vue');
 const CardapioPizza = () => import('../components/Cliente/CardapioPizza.vue');
 const CardapioBebida = () => import('../components/Cliente/CardapioBebidas.vue');
 const CardapioRodizio = () => import('../components/Cliente/CardapioRodizio.vue');
@@ -39,11 +38,6 @@ const router = createRouter({
       path:'/conta',
         name: 'conta',
         component: PagarConta,
-    },
-    {
-      path: '/login',
-        name: 'login',
-        component: LoginFunc,
     },
     {
       path: '/cardapiopizza',
