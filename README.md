@@ -44,6 +44,16 @@ npm run serve
 npm run electron:serve
 ```
 
+### Criar arquivo .env
+```
+DB_USER=
+DB_PASSWORD=
+DB_HOST=
+DB_NAME=
+DB_PORT=
+PORT=
+```
+
 ## Comandos para o DB
 ```
 CREATE TABLE tables (
