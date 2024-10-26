@@ -59,7 +59,7 @@
             </div>
           <div>
             <label for="descricao" class="descricao-label">Descrição</label>
-            <textarea maxlength="36" id="descricao" v-model="produto.descricao"></textarea>
+            <textarea maxlength="40" id="descricao" v-model="produto.descricao"></textarea>
           </div>
           <button type="submit">Adicionar</button>
         </form>
@@ -273,7 +273,7 @@ export default {
   cursor: pointer;
   font-size: 1rem;
   border-radius: 5px;
-  color: #000;
+  color: #fefefe;
   text-align: center;
   font-family: "Mukta Mahee";
   font-size: 1.5rem;

@@ -19,7 +19,7 @@
         <div class="header-content">
           <h1>ALTERAR</h1>
           <div class="botao-status">
-            <button class="editar" @click="goToPage('/alterarmenu')">EDITAR</button>
+            <button class="editar">EDITAR</button>
             <button class="adicionar"  @click="goToPage('/adicionarmenu')">ADICIONAR</button>
           </div>
           <div class="header-botao">
@@ -50,24 +50,45 @@
     </div>
     <div v-if="showModal" class="modal">
       <div class="modal-content">
+        
         <span class="close" @click="closeEditModal">&times;</span>
         <h2>Editar Item</h2>
-        <label for="nome">Nome:</label>
+        <div class="delete-container">
+        <label class="name" for="nome">Nome:</label>
+        <button @click="deleteItem" class="delete-button">
+          <img src="@/assets/lixo.png" alt="Edit Icon" class="delete-icon" />
+        </button>
+        </div>
         <input type="text" id="nome" v-model="selectedItem.nome" />
-
+      <div class="inline-fields">
+        <div class="field">
         <label for="tipo">Tipo:</label>
-        <input type="text" id="tipo" v-model="selectedItem.tipo" />
-
+        <select id="tipo" v-model="selectedItem.tipo" required>
+                <option value="pizza">Pizza</option>
+                <option value="bebida">Bebida</option>
+        </select>
+        </div>
+        <div class="field">
         <label for="categoria">Categoria:</label>
-        <input type="text" id="categoria" v-model="selectedItem.categoria" />
-
+        <select id="categoria" v-model="selectedItem.categoria">
+          <option value="Salgada">Salgada</option>
+          <option value="Doce">Doce</option>
+          <option value="Refrigerante">Refrigerante</option>
+          <option value="Cerveja">Cerveja</option>
+          <option value="Drinks">Drinks</option>
+          <option value="Agua">Água</option>
+        </select>
+        </div>
+        <div class="field">
         <label for="preco">Preço:</label>
         <input type="text" id="preco" v-model="selectedItem.preco" />
-
+        </div>
+        </div>
         <label for="descricao">Descrição:</label>
-        <input type="text" id="descricao" v-model="selectedItem.descricao" />
+        <input type="text" maxlength="40" id="descricao" v-model="selectedItem.descricao" />
 
-        <button @click="saveChanges">Salvar</button>
+        <button class="salvar" @click="saveChanges">Salvar</button>
+      
       </div>
     </div>
   </div>
@@ -81,9 +102,9 @@ export default {
   data() {
     return {
       menuItems: [],
-      activeButton: 'pizza', // Estado para rastrear o botão ativo
+      activeButton: 'pizza', 
       showModal: false,
-      selectedItem: null
+      selectedItem: null,
     };
   },
   methods: {
@@ -116,6 +137,17 @@ export default {
       } catch (error) {
         console.error("Erro ao atualizar item:", error);
         alert("Não foi possível atualizar o item. Tente novamente.");
+      }
+    },
+    async deleteItem() {
+      try {
+        await axios.delete(`http://localhost:3000/menu/delete/${this.selectedItem.id}`);
+        alert("Item deletado com sucesso!");
+        this.closeEditModal();
+        this.fetchMenuItems(this.activeButton); // Atualizar a lista de itens
+      } catch (error) {
+        console.error("Erro ao deletar item:", error);
+        alert("Não foi possível deletar o item. Tente novamente.");
       }
     }
   },
@@ -246,7 +278,7 @@ export default {
   font-size: 1rem;
   border-radius: 5px;
   margin-right: 10px;
-  color: #000;
+  color: #fefefe;
   text-align: center;
   font-family: "Mukta Mahee";
   font-size: 1.5rem;
@@ -298,6 +330,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 23.5vw;
 }
 
 .menu-item-content {
@@ -305,6 +338,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  
 }
 
 .menu-item-text {
@@ -323,6 +357,7 @@ h2 {
 }
 
 .edit-button {
+  margin-left: 0.3em;
   width: 2.8125rem;
   height: 2.8125rem;
   flex-shrink: 0;
@@ -393,6 +428,10 @@ p {
   max-width: 500px;
   margin: auto;
   border-radius: 5px;
+  font-family: "Mukta Mahee";
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 800;
 }
 
 .close {
@@ -407,5 +446,69 @@ p {
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+.delete-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-top: 10px;
+  margin-left: auto;
+}
+
+.delete-icon {
+  width: 1vw;
+  height: auto;
+}
+
+input, select {
+  width: 95%;
+  padding: 0.5rem;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adiciona sombra aos inputs */
+}
+.salvar {
+  background-color: #4a5d23;
+  color: #d9d9d9;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 20wh;
+  font-size: 16px;
+  margin-top: 1rem;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.inline-fields {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 1rem;
+}
+
+.field {
+  margin-right: 1rem;
+
+}
+
+.field:last-child {
+  margin-right: 0;
+}
+
+.delete-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.name {
+  flex-grow: 1;
 }
 </style>
