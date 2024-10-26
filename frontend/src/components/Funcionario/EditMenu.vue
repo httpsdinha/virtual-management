@@ -42,10 +42,32 @@
             <p>{{ item.descricao }}</p>
             <p>R$ {{ item.preco }}</p>
           </div>
-            <button class="edit-button" @click="goToPage('/alteraritem')" >
+            <button class="edit-button" @click="openEditModal(item)" >
             <img src="@/assets/lapis.png" alt="Edit Icon" class="edit-icon" />
             </button>
         </div>
+      </div>
+    </div>
+    <div v-if="showModal" class="modal">
+      <div class="modal-content">
+        <span class="close" @click="closeEditModal">&times;</span>
+        <h2>Editar Item</h2>
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" v-model="selectedItem.nome" />
+
+        <label for="tipo">Tipo:</label>
+        <input type="text" id="tipo" v-model="selectedItem.tipo" />
+
+        <label for="categoria">Categoria:</label>
+        <input type="text" id="categoria" v-model="selectedItem.categoria" />
+
+        <label for="preco">Preço:</label>
+        <input type="text" id="preco" v-model="selectedItem.preco" />
+
+        <label for="descricao">Descrição:</label>
+        <input type="text" id="descricao" v-model="selectedItem.descricao" />
+
+        <button @click="saveChanges">Salvar</button>
       </div>
     </div>
   </div>
@@ -59,7 +81,9 @@ export default {
   data() {
     return {
       menuItems: [],
-      activeButton: 'pizza' // Estado para rastrear o botão ativo
+      activeButton: 'pizza', // Estado para rastrear o botão ativo
+      showModal: false,
+      selectedItem: null
     };
   },
   methods: {
@@ -74,10 +98,29 @@ export default {
       } catch (error) {
         console.error('Erro ao buscar itens do menu:', error);
       }
+    },
+    openEditModal(item) {
+      this.selectedItem = { ...item }; // Clonar o item para edição
+      this.showModal = true;
+    },
+    closeEditModal() {
+      this.showModal = false;
+      this.selectedItem = null;
+    },
+    async saveChanges() {
+      try {
+        await axios.put(`http://localhost:3000/menu/update/${this.selectedItem.id}`, this.selectedItem);
+        alert("Item atualizado com sucesso!");
+        this.closeEditModal();
+        this.fetchMenuItems(this.activeButton); // Atualizar a lista de itens
+      } catch (error) {
+        console.error("Erro ao atualizar item:", error);
+        alert("Não foi possível atualizar o item. Tente novamente.");
+      }
     }
   },
   created() {
-    this.fetchMenuItems('pizza'); // Carrega itens do tipo pizza por padrão
+    this.fetchMenuItems('pizza');
   }
 };
 </script>
@@ -325,5 +368,44 @@ p {
 .tipos-button .active-button {
   background-color: #394F14;
   color: white;
+}
+
+/* Estilos para o modal */
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 500px;
+  margin: auto;
+  border-radius: 5px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }
 </style>
