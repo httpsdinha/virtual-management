@@ -1,4 +1,3 @@
-const { get } = require('mongoose');
 const menuItemModel = require('../models/menuItemModel');
 
 const addMenuItem = async (req, res) => {
@@ -57,28 +56,14 @@ const deleteMenuItem = async (req, res) => {
 };
 
 const getMenuItems = async (req, res) => {
-  const { tipo } = req.query;
-  try {
-    const items = await menuItemModel.getMenuItems(tipo);
-    res.json(items);
-  } catch (error) {
-    console.error('Erro ao listar itens do cardápio:', error);
-    res.status(500).json({ error: 'Erro ao listar itens do cardápio' });
-  }
-};
+  const { tipo, categoria, id } = req.query; 
 
-const getMenuItemById = async (req, res) => {
-  const { id } = req.params;
   try {
-    const item = await menuItemModel.getMenuItemById(id);
-    if (item.length > 0) {
-      res.json(item);
-    } else {
-      res.status(404).json({ error: 'Item não encontrado' });
-    }
+    const menuItems = await menuItemModel.getMenuItems({ tipo, categoria, id });
+    res.json(menuItems); 
   } catch (error) {
-    console.error('Erro ao buscar item do cardápio:', error);
-    res.status(500).json({ error: 'Erro ao buscar item do cardápio' });
+    console.error('Erro ao buscar itens do menu:', error);
+    res.status(500).json({ error: 'Erro ao buscar itens do menu' });
   }
 };
 
@@ -87,5 +72,4 @@ module.exports = {
   updateMenuItem,
   deleteMenuItem,
   getMenuItems,
-  getMenuItemById,
 };

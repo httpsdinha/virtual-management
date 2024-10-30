@@ -1,169 +1,255 @@
 <template>
-    <div class="main">
+    <div class="container">
+      <aside class="menu-lateral">
+        <img src="@/assets/logo.png" alt="Logo" class="logo">
+        <hr class="divider">
+        <h1>MENU</h1>
+        <div class="menus-botton">
+          <button class="transparent-button" @click="goToPage('/cardapiohome')">DESTAQUES</button>
+          <button class="transparent-button" @click="goToPage('/cardapiopizza')">PIZZAS</button>
+          <button class="transparent-button" @click="goToPage('/cardapiobebida')">BEBIDAS</button>
+          <button class="transparent-button" @click="goToPage('/')">RODÍZIO</button>
+        </div>
+      </aside>
+  
+      <main class="main">
         <header class="header">
-                <div class="header-content">
-                    <h1>BEBIDAS</h1>
-                    <div class="header-botao">
-                        <button class="header-icon-button" @click="goToPage('/')">
-                            <img src="@/assets/home.png" alt="Home Icon" class="home-icon" />
-                        </button>
-                        <button class="header-icon-button" @click="goToPage('/garcom')">
-                            <img src="@/assets/garcom.png" alt="Waiter Icon" class="garcom-icon" />
-                        </button>
-                        <button class="header-icon-button" @click="goToPage('/')">
-                            <img src="@/assets/carrinho.png" alt="Cart Icon" class="carrinho-icon" />
-                        </button>
-                    </div>
-                </div>
-                <hr class="divider1">
-            </header>
+          <div class="header-content">
+            <h1>PIZZAS</h1>
+            <div class="header-botao">
+              <button class="header-icon-button" @click="goToPage('/')">
+                <img src="@/assets/home.png" alt="Home Icon" class="home-icon" />
+              </button>
+              <button class="header-icon-button" @click="goToPage('/garcom')">
+                <img src="@/assets/garcom.png" alt="Waiter Icon" class="garcom-icon" />
+              </button>
+              <button class="header-icon-button" @click="goToPage('/')">
+                <img src="@/assets/carrinho.png" alt="Cart Icon" class="carrinho-icon" />
+              </button>
+            </div>
+          </div>
+        </header>
+  
+        <div class="tipo-pizza">
+          <hr class="divider1">
+          <button class="sabor-pizza"><h2>Salgada</h2></button>
+          <button class="sabor-pizza"><h2>Doce</h2></button>
+          <hr class="divider2">
+        </div>
+        <div class="menu-container">
+        <div class="menu-items">
+          <div v-for="item in menuItems" :key="item.id" class="menu-item">
+            <div class="menu-item-content">
+              <div class="menu-item-text">
+                <h2>{{ item.nome }}</h2>
+                <p>{{ item.descricao }}</p>
+                <p>R$ {{ item.preco }}</p>
+              </div>
+              <img src="@/assets/adicionar.png" class="adicionar-icon">
+            </div>
+          </div>
+        </div>
+      </div>
+      </main>
     </div>
-    <nav class="menu-lateral">
-                <img src="@/assets/logo.png" alt="Logo" class="logo">
-                <hr class="divider">
-                <h1>MENU</h1>
-                <div class="menus-botton">
-                    <button class="transparent-button" @click="goToPage('/cardapiohome')">
-                    DESTAQUES
-                    </button>
-                    <button class="transparent-button" @click="goToPage('/cardapiopizza')">
-                    PIZZAS
-                    </button>
-                    <button class="transparent-button" @click="goToPage('/cardapiobebida')">
-                    BEBIDAS
-                    </button>
-                    <button class="transparent-button" @click="goToPage('/cardapiorodizio')">
-                    RODÍZIO
-                    </button>
-                </div>
-            </nav>
-</template>
-<script>
-export default {
-    name: 'CardapioBebidas',
+  </template>
+  
+  <script>
+  import axios from 'axios';
+  
+  export default {
+    data() {
+      return {
+        menuItems: [],
+        activeButton: 'pizza',
+        showModal: false,
+        selectedItem: null,
+      };
+    },
     methods: {
-        goToPage(route) {
-            this.$router.push(route);
+      goToPage(page) {
+        this.$router.push(page);
+      },
+      async fetchMenuItems(tipo) {
+        try {
+          const response = await axios.get(`http://localhost:3000/menu/list?tipo=${tipo}`);
+          this.menuItems = response.data;
+          this.activeButton = tipo;
+        } catch (error) {
+          console.error('Erro ao buscar itens do menu:', error);
         }
+      },
+    },
+    created() {
+      this.fetchMenuItems('pizza');
     }
-}
-</script>
-<style scoped>
-    .main {
-        position: relative;
-        display: flex;
-        flex-direction: column; 
-        justify-content: flex-start; 
-        height: 100vh;
-        background: #CCCBC9;
-        font-family: 'Mukta Mahee';
-    }
-
-        /* Estilos da navegação lateral */
-        .menu-lateral {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 15vw; 
-        height: 100%;
-        background: linear-gradient(to bottom, #5E8221 0%, #394F14 100%);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        box-shadow: 0 0 50px rgba(13, 13, 13, 0.7);
-        font-family: 'Mukta Mahee';
-        font-weight: bold;
-    }
-
-    .logo {
-        margin-top: 2vh;
-        width: 10vw;
-        height: auto;
-    }
-
-    .menus-botton {
-        display: flex;
-        margin-top: 2vh;
-        flex-direction: column;
-        align-items: center; 
-        width: 100%;
-    }
-
-    .transparent-button {
-        background: transparent;
-        border: 3px solid black;
-        color: black;
-        margin-bottom: 3vh;
-        padding: 1.5rem;
-        cursor: pointer;
-        font-size: 1.2vw;
-        border-radius: 10px;
-        font-family: 'Mukta Mahee', sans-serif;
-        font-weight: bold;
-        transition: background 0.3s, color 0.3s;
-        width: 80%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-.transparent-button:hover {
+  };
+  </script>
+  
+  <style>
+  .container {
+    display: flex;
+    height: 100vh;
+    font-family: 'Mukta Mahee';
+    background: #CCCBC9;
+    overflow: auto;
+  }
+  
+  .main {
+    margin-left: 2rem;
+    margin-right: 2rem;
+    widows: 80%;
+    flex-grow: 1;
+  }
+  
+  .header-content {
+    display: flex;
+    align-items: center;
+  }
+  
+  .header-botao {
+    display: flex;
+    margin-left: auto;
+  }
+  
+  .header-icon-button {
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+  
+  .header-icon-button img {
+    margin-left: 20px;
+    width: 2vw;
+    height: auto;
+  }
+  
+  .tipo-pizza {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .sabor-pizza {
+    background: none;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 10px;
+    cursor: pointer;
+  }
+  
+  .sabor-pizza:hover {
+    background: rgba(94, 130, 33, 0.2);
+    border-radius: 5px;
+  }
+  
+  .menu-items {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    flex-direction: column;
+    margin-top: 1rem;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  
+  .menu-item {
+    border: 1px solid black;
+    padding: 10px;
+    width: 23.8125rem;
+    height: 5.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .menu-item-content {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+  }
+  
+  .menu-item-text h2,
+  .menu-item-text p {
+    margin: 0;
+  }
+  
+  .menu-item-text {
+    width: 20rem; 
+  }
+  
+  .adicionar-icon {
+    width: 2.8125rem;
+    height: 2.8125rem;
+    cursor: pointer;
+  }
+  
+  .menu-lateral {
+    width: 15vw;
+    height: 100vh;
+    background: linear-gradient(to bottom, #5E8221 0%, #394F14 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 0 50px rgba(13, 13, 13, 0.7);
+    font-family: 'Mukta Mahee';
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+    font-weight: bold;
+  }
+  
+  .logo {
+    margin-top: 2vh;
+    width: 10vw;
+    height: auto;
+  }
+  
+  .menus-botton {
+    display: flex;
+    margin-top: 2vh;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    
+  }
+  
+  .transparent-button {
+    background: transparent;
+    border: 3px solid black;
+    color: black;
+    margin-bottom: 3vh;
+    padding: 1.5rem;
+    cursor: pointer;
+    font-size: 1.2vw;
+    border-radius: 10px;
+    font-family: 'Mukta Mahee', sans-serif;
+    font-weight: bold;
+    transition: background 0.3s, color 0.3s;
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .transparent-button:hover {
     background: #344D0B;
     color: black;
-}
-
-.header {
-        margin-top: 1px;
-        width: 75%; 
-        padding: 10px;
-        margin-bottom: 0.5vh;
-        margin-left: 35vh;
-    }
-
-        /* Container para o h1 e os botões */
-        .header-content {
-        margin-top: 1px;
-        display: flex;
-        align-items: center; 
-    }
-    .header-botao {
-        display: flex; 
-        align-items: center; 
-        margin-left: auto; 
-    }
-
-    /* Botão sem fundo e borda */
-    .header-icon-button {
-        background: transparent;
-        border: none;
-        padding: 0;
-        cursor: pointer;
-    }
-
-    /* Imagem do botão */
-    .header-botao img {
-        margin-left: 20px;
-        width: 2vw;
-        height: auto;
-    }
-
-    .divider2{
-        width: 75%;
-        border: 1px solid rgba(57, 79, 20, 0.3);
-        margin-left: 37vh;
-    
-    }
-
-    .divider{
-        width: 60%;
-        border: 1px solid rgba(57, 79, 20, 0.3);
-        margin: 5px 0;
-    }
-    /* Divider abaixo dos botões */
-    .divider1 {
-        width: 100%;
-        border: 1px solid rgba(57, 79, 20, 0.3);
-        margin: 1px;
-    }
-
-</style>
+  }
+  
+  .divider {
+    width: 70%;
+    border: 1px solid rgba(57, 79, 20, 0.3);
+    margin: 5px 0;
+  }
+  
+  .divider1, .divider2 {
+    width: 100%;
+    border: 1px solid rgba(57, 79, 20, 0.3);
+    margin: 1px;
+  }
+  
+  </style>
+  

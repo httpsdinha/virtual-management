@@ -146,9 +146,8 @@ export default {
 }
 .container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
+  height: 100vh;
+  background: #CCCBC9;
 }
 .menus-botton {
   display: flex;
@@ -298,17 +297,18 @@ export default {
 }
 
 .modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: white;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  width: 90%;
-  max-width: 500px;
-  box-sizing: border-box;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  font-family: "Mukta Mahee";
 }
 
 .modal-content {
@@ -333,25 +333,5 @@ export default {
   cursor: pointer;
 }
 
-/* Media Queries */
-@media (min-width: 600px) {
-  .container {
-    flex-direction: row;
-    justify-content: space-between;
-  }
 
-  .mesas-list {
-    flex: 1;
-  }
-
-  .mesa-item {
-    width: calc(50% - 20px);
-  }
-}
-
-@media (min-width: 900px) {
-  .mesa-item {
-    width: calc(33.33% - 20px);
-  }
-}
 </style>

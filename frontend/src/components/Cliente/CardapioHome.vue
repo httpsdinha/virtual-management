@@ -72,6 +72,7 @@
         height: 100vh;
         background: #CCCBC9;
         font-family: 'Mukta Mahee';
+        margin:0;
     }
 
     .header {
