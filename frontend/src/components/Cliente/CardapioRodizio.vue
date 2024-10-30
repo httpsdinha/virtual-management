@@ -50,6 +50,7 @@ export default {
 </script>
 <style scoped>
     .main {
+        margin: 0;
         position: relative;
         display: flex;
         flex-direction: column; 

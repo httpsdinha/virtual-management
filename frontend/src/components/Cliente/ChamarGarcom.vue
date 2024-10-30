@@ -45,6 +45,7 @@ export default {
 
 <style scoped>
 .main {
+    margin: 0;
     position: relative;
     display: flex;
     flex-direction: column; 

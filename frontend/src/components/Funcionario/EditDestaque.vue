@@ -1,107 +1,97 @@
 <template>
     <div class="container">
         <nav class="menu-lateral">
-          <img src="@/assets/logo.png" alt="Logo" class="logo" />
-          <hr class="divider" />
-          <h1>MENU</h1>
-          <div class="menus-botton">
-            <button class="transparent-button" @click="goToPage('/funcionario')">
-              COMANDAS
-            </button>
-            <button class="transparent-button" @click="goToPage('/alterarmenu')">
-              ALTERAR
-            </button>
-            <button class="transparent-button" @click="goToPage('/alterardestaque')">
-              DESTAQUE
-            </button>
-          </div>
-        </nav>
-    
-        <div class="main">
-          <header class="header">
-            <div class="header-content">
-              <h1>DESTAQUE</h1>
-              <div class="header-botao">
-                <button class="header-icon-button" @click="goToPage('/')">
-                  <img src="@/assets/home.png" alt="Home Icon" class="home-icon" />
+            <img src="@/assets/logo.png" alt="Logo" class="logo" />
+            <hr class="divider" />
+            <h1>MENU</h1>
+            <div class="menus-botton">
+                <button class="transparent-button" @click="goToPage('/funcionario')">
+                    COMANDAS
                 </button>
-              </div>
+                <button class="transparent-button" @click="goToPage('/alterarmenu')">
+                    ALTERAR
+                </button>
+                <button class="transparent-button" @click="goToPage('/alterardestaque')">
+                    DESTAQUE
+                </button>
             </div>
-            <hr class="divider1">
-          </header>
-          <div class="destaque">
-            <figure class="destaque-principal">
-                <img :src="imagens[0]?.imagem" alt="Destaque" class="destaque-img" />
-            </figure>
-            <div class="destaques-secundarios">
-            <figure class="destaque-secundario1">
-                <img :src="imagens[1]?.imagem" alt="Destaque" class="destaque-img" />
-            </figure>
-            <figure class="destaque-secundario2">
-                <img :src="imagens[2]?.imagem" alt="Destaque" class="destaque-img" />
-            </figure>
+        </nav>
+
+        <div class="main">
+            <header class="header">
+                <div class="header-content">
+                    <h1>DESTAQUE</h1>
+                    <div class="header-botao">
+                        <button class="header-icon-button" @click="goToPage('/')">
+                            <img src="@/assets/home.png" alt="Home Icon" class="home-icon" />
+                        </button>
+                    </div>
+                </div>
+                <hr class="divider1">
+            </header>
+            <div class="destaque">
+                <figure class="destaque-principal">
+                    <img :src="principalImage" alt="Destaque" class="destaque-img" />
+                </figure>
+                <div class="destaques-secundarios">
+                    <figure class="destaque-secundario1">
+                        <img src="virtual-management/frontend/public/uploads/2.jpg" alt="Destaque" class="destaque-img" />
+                    </figure>
+                    <figure class="destaque-secundario2">
+                        <img src="virtual-management/frontend/public/uploads/3.jpg" alt="Destaque" class="destaque-img" />
+                    </figure>
+                </div>
+                <input type="file" @change="onFileChange" />
+                <button @click="enviarImagem">Enviar Imagem</button>
             </div>
-            <input type="file" @change="onFileChange" />
-            <button @click="enviarImagem">Enviar Imagem</button>
-            </div>
-          </div>
         </div>
-    </template>
-    
-    <script>
-    import axios from "axios";
+    </div>
+</template>
 
-    export default {
-    data() {
-        return {
-        imagemBase64: null,
-        imagens: [],
-        };
-    },
-    created() {
-    this.carregarImagens(); 
-    },
-    methods: {
-        goToPage(route) {
-      this.$router.push(route);
-        },
-        onFileChange(event) {
-        const file = event.target.files[0];
-        const reader = new FileReader();
+<script>
+import axios from 'axios';
 
-        reader.onload = (e) => {
-            this.imagemBase64 = e.target.result;
-        };
-
-        if (file) {
-            reader.readAsDataURL(file); 
-        }
-        },
-        async enviarImagem() {
-        if (this.imagemBase64) {
-            try {
-            await axios.post("http://localhost:3000/imagem/upload-imagem/1", {
-                imagem: this.imagemBase64,
-            });
-            alert("Imagem enviada com sucesso!");
-            } catch (error) {
-            console.error("Erro ao enviar imagem:", error);
-            }
-        } else {
-            alert("Nenhuma imagem selecionada!");
-        }
-        },
-        async carregarImagens() {
-            try {
-                const response = await axios.get("http://localhost:3000/imagem/imagens");
-                this.imagens = response.data; 
-            } catch (error) {
-                console.error("Erro ao carregar imagens:", error);
-            }
-        },
-    },
+export default {
+  data() {
+    return {
+      selectedFile: null,
+      principalImage: 'virtual-management/frontend/public/uploads/1.jpg' // Caminho inicial da imagem principal
     };
-    </script>
+  },
+  methods: {
+    goToPage(page) {
+        this.$router.push(page);
+      },
+    onFileChange(event) {
+      this.selectedFile = event.target.files[0]; // Armazena o arquivo selecionado
+    },
+    async enviarImagem() {
+      if (this.selectedFile) {
+        const formData = new FormData();
+        formData.append('imagem', this.selectedFile);
+        formData.append('fileName', '1'); 
+
+        try {
+          await axios.post('http://localhost:3000/imagem/upload-imagem/1', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          });
+          
+          this.principalImage = 'virtual-management/frontend/public/uploads/1.jpg?' + new Date().getTime();
+          console.log(this.printipalImage)
+          alert('Imagem enviada com sucesso!');
+        } catch (error) {
+          console.error('Erro ao enviar a imagem:', error);
+          alert('Erro ao enviar a imagem.');
+        }
+      } else {
+        alert('Nenhuma imagem selecionada!');
+      }
+    }
+  }
+};
+</script>
     
     <style scoped>
     .main {
@@ -111,7 +101,6 @@
       padding: 20px;
       background: #CCCBC9;
       font-family: 'Mukta Mahee';
-      overflow-y: scroll;
     }
     
     .menu-lateral {
@@ -286,4 +275,3 @@
       }
     }
     </style>
-    

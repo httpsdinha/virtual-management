@@ -1,31 +1,36 @@
-// imagemModel.js
-const pool = require('../config/db');
+// src/server/models/imagemModel.js
+const pool = require('../config/db'); // Certifique-se de que o pool de conexões está configurado corretamente
 
-const salvarImagem = async (imagem) => {
-    const query = "INSERT INTO imagens (imagem) VALUES ($1) RETURNING *"; // Corrigido para usar 'imagem'
-    const values = [imagem];
-    const result = await pool.query(query, values);
-    return result.rows[0];
+// Função para salvar o caminho da imagem no banco de dados
+const salvarImagemPorId = async (id, imagePath) => {
+    const query = "UPDATE imagens SET imagem = $1 WHERE id = $2"; // Atualiza a coluna 'imagem' com o caminho
+    const values = [imagePath, id];
+    try {
+        const result = await pool.query(query, values);
+        return result.rowCount; // Retorna o número de linhas afetadas
+    } catch (error) {
+        console.error('Erro ao salvar a imagem no banco de dados:', error);
+        throw error;
+    }
 };
 
+// Função para buscar a imagem pelo ID
 const buscarImagemPorId = async (id) => {
     const query = "SELECT * FROM imagens WHERE id = $1";
     const values = [id];
-    const result = await pool.query(query, values);
-    if (result.rows.length === 0) {
-        return null; // Retorna null se não encontrar a imagem
+    try {
+        const result = await pool.query(query, values);
+        if (result.rows.length === 0) {
+            return null; // Retorna null se não encontrar a imagem
+        }
+        return result.rows[0]; // Retorna a primeira imagem encontrada
+    } catch (error) {
+        console.error('Erro ao buscar a imagem no banco de dados:', error);
+        throw error;
     }
-    return result.rows[0]; // Retorna a primeira imagem encontrada
-};
-
-const buscarImagens = async () => {
-    const query = "SELECT * FROM imagens ORDER BY id ASC LIMIT 3";
-    const result = await pool.query(query);
-    return result.rows;
 };
 
 module.exports = {
-    salvarImagem,
+    salvarImagemPorId,
     buscarImagemPorId,
-    buscarImagens,
 };

@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <CartPopup :cart="cart" :isCartOpen="isCartOpen" @toggleCart="toggleCart" @removeFromCart="removeFromCart" />
     <aside class="menu-lateral">
       <img src="@/assets/logo.png" alt="Logo" class="logo">
       <hr class="divider">
@@ -8,7 +9,7 @@
         <button class="transparent-button" @click="goToPage('/cardapiohome')">DESTAQUES</button>
         <button class="transparent-button" @click="goToPage('/cardapiopizza')">PIZZAS</button>
         <button class="transparent-button" @click="goToPage('/cardapiobebida')">BEBIDAS</button>
-        <button class="transparent-button" @click="goToPage('/')">RODÍZIO</button>
+        <button class="transparent-button" @click="goToPage('/cardapiorodizio')">RODÍZIO</button>
       </div>
     </aside>
 
@@ -23,7 +24,7 @@
             <button class="header-icon-button" @click="goToPage('/garcom')">
               <img src="@/assets/garcom.png" alt="Waiter Icon" class="garcom-icon" />
             </button>
-            <button class="header-icon-button" @click="goToPage('/')">
+            <button class="header-icon-button" @click="toggleCart">
               <img src="@/assets/carrinho.png" alt="Cart Icon" class="carrinho-icon" />
             </button>
           </div>
@@ -45,26 +46,52 @@
               <p>{{ item.descricao }}</p>
               <p>R$ {{ item.preco }}</p>
             </div>
-            <img src="@/assets/adicionar.png" class="adicionar-icon">
+            <img src="@/assets/adicionar.png" @click="addToCart(item)" class="adicionar-icon">
           </div>
         </div>
       </div>
     </div>
     </main>
+    <CartPopup :addItemCount="addItemCount" :totalQuantity="totalQuantity" v-if="isCartOpen" />
   </div>
 </template>
 
 <script>
 import axios from 'axios';
+import CartPopup from './CartPopup.vue';
 
 export default {
+  components: { CartPopup },
   data() {
     return {
+      activeButton: '',
       menuItems: [],
-      activeButton: 'Salgada', 
+      cart: [],
+      addItemCount: 0,
+      isCartOpen: false
     };
   },
+  computed: {
+    totalQuantity() {
+      return this.cart.reduce((total, item) => total + item.quantity, 0);
+    }
+  },
   methods: {
+    toggleCart(){
+      this.isCartOpen = !this.isCartOpen;
+    },
+    addToCart(product){
+      const existingItem = this.cart.find(item => item.id === product.id);
+      if (existingItem){
+        existingItem.quantity += 1;
+      } else {
+        this.cart.push({...product, quantity: 1});
+      }
+      this.addItemCount++;
+    },
+    removeFromCart(productId){
+      this.cart = this.cart.filter(item => item.id !== productId);
+    },
     goToPage(page) {
       this.$router.push(page);
     },
@@ -131,7 +158,7 @@ export default {
 
 .menu-items {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
   width: 100%;
   max-width: 1200px;
@@ -265,6 +292,10 @@ export default {
   border-radius: 5px;
 }
 
+.carrinho-icon{
+  width: 25px;
+  height: auto;
+}
 
 </style>
 

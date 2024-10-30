@@ -80,6 +80,7 @@ CREATE TABLE menu_items (
 ```
 CREATE TABLE imagens (
     id SERIAL PRIMARY KEY,
-    imagem BYTEA
+    caminho VARCHAR(255) NOT NULL
 );
+
 ```

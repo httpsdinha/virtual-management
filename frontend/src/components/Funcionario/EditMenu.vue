@@ -168,7 +168,7 @@ export default {
   padding: 20px;
   background: #CCCBC9;
   font-family: 'Mukta Mahee';
-  overflow-y: scroll;
+  overflow: auto;
 }
 
 .menu-lateral {
