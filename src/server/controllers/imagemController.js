@@ -1,47 +1,54 @@
 const db = require('../config/db'); 
+const imagemModel = require('../models/imagemModel');
 
-const salvarImagem = async (req, res) => {
-  const numeroImagem = req.params.numero;
-  const { imagem } = req.body; 
-
-  try {
-      
-      if (numeroImagem < 1 || numeroImagem > 3) {
-          return res.status(400).send({ message: 'Número da imagem inválido. Use 1, 2 ou 3.' });
-      }
-
-      
-      const imagemBuffer = Buffer.from(imagem.split(',')[1], 'base64');
-
-      
-      const updateQuery = `INSERT INTO imagens (id, imagem) VALUES ($1, $2) 
-                           ON CONFLICT (id) DO UPDATE SET imagem = EXCLUDED.imagem`;
-      
-      await db.query(updateQuery, [numeroImagem, imagemBuffer]);
-
-      res.status(200).send({ message: `Imagem ${numeroImagem} salva com sucesso!` });
-  } catch (error) {
-      console.error(error);
-      res.status(500).send({ message: 'Erro ao salvar a imagem.' });
-  }
-};
-const buscarImagem = async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const imagem = await imagemModel.buscarImagemPorId(id);
-
-    if (!imagem) {
-      return res.status(404).json({ error: "Imagem não encontrada." });
+const buscarImagemPorId = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const imagem = await imagemModel.buscarImagemPorId(id);
+        if (!imagem) {
+            return res.status(404).json({ message: 'Imagem não encontrada.' });
+        }
+        // Verifique se 'imagem' está definido antes de chamar toString
+        if (!imagem.imagem) {
+            return res.status(404).json({ message: 'Imagem não possui dados.' });
+        }
+        res.status(200).json({
+            id: imagem.id,
+            imagem: imagem.imagem.toString('base64'), // Acesso à coluna correta
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: 'Erro ao buscar a imagem.' });
     }
-
-    res.status(200).json(imagem);
-  } catch (error) {
-    console.error("Erro ao buscar imagem:", error);
-    res.status(500).json({ error: "Erro ao buscar imagem no banco de dados." });
-  }
 };
+
+const buscarImagens = async (req, res) => {
+    try {
+        const imagens = await imagemModel.buscarImagens();
+        const imagensBase64 = imagens.map(row => ({
+            id: row.id,
+            imagem: row.imagem.toString('base64'), // Acesso à coluna correta
+        }));
+        res.status(200).json(imagensBase64);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: 'Erro ao buscar as imagens.' });
+    }
+};
+
+const enviarImagem = async (req, res) => {
+    const { imagem } = req.body;
+    try {
+        const novaImagem = await imagemModel.salvarImagem(Buffer.from(imagem, 'base64'));
+        res.status(201).json(novaImagem);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: 'Erro ao salvar a imagem.' });
+    }
+};
+
 module.exports = {
-    salvarImagem,
-    buscarImagem,
+    buscarImagemPorId,
+    buscarImagens,
+    enviarImagem,
 };

@@ -29,11 +29,22 @@
             </div>
             <hr class="divider1">
           </header>
-          </div>
-        <div class="destaque-imagens">
+          <div class="destaque">
+            <figure class="destaque-principal">
+                <img :src="imagens[0]?.imagem" alt="Destaque" class="destaque-img" />
+            </figure>
+            <div class="destaques-secundarios">
+            <figure class="destaque-secundario1">
+                <img :src="imagens[1]?.imagem" alt="Destaque" class="destaque-img" />
+            </figure>
+            <figure class="destaque-secundario2">
+                <img :src="imagens[2]?.imagem" alt="Destaque" class="destaque-img" />
+            </figure>
+            </div>
             <input type="file" @change="onFileChange" />
             <button @click="enviarImagem">Enviar Imagem</button>
-        </div>
+            </div>
+          </div>
         </div>
     </template>
     
@@ -44,9 +55,16 @@
     data() {
         return {
         imagemBase64: null,
+        imagens: [],
         };
     },
+    created() {
+    this.carregarImagens(); 
+    },
     methods: {
+        goToPage(route) {
+      this.$router.push(route);
+        },
         onFileChange(event) {
         const file = event.target.files[0];
         const reader = new FileReader();
@@ -56,7 +74,7 @@
         };
 
         if (file) {
-            reader.readAsDataURL(file); // Converte o arquivo em base64
+            reader.readAsDataURL(file); 
         }
         },
         async enviarImagem() {
@@ -72,6 +90,14 @@
         } else {
             alert("Nenhuma imagem selecionada!");
         }
+        },
+        async carregarImagens() {
+            try {
+                const response = await axios.get("http://localhost:3000/imagem/imagens");
+                this.imagens = response.data; 
+            } catch (error) {
+                console.error("Erro ao carregar imagens:", error);
+            }
         },
     },
     };
@@ -182,256 +208,49 @@
       border: 1px solid rgba(57, 79, 20, 0.3);
       margin: 1px;
     }
-    
-    .botao-status {
-      display: flex;
-      justify-content: flex-end;
-      margin-top: 1vh;
-      margin-left: auto;
-      color: #000;
+
+    .destaque {
+        display: flex;
+        flex-direction: column; 
+        align-items: center; 
+        margin-top: 5vh;
     }
-    
-    .editar {
-      background-color: #394F14; 
-      border: none;
-      padding: 10px 20px;
-      cursor: pointer;
-      font-size: 1rem;
-      border-radius: 5px;
-      margin-right: 10px;
-      color: #fefefe;
-      text-align: center;
-      font-family: "Mukta Mahee";
-      font-size: 1.5rem;
-      font-style: normal;
-      font-weight: 800;
-      line-height: normal;
+
+    .destaques-secundarios {
+        display: flex; 
+        justify-content: space-between; 
+        width: 75vw; 
+        margin-top: 8vh; 
     }
-    
-    .adicionar {
-      background-color: transparent;
-      border: none;
-      padding: 10px 20px;
-      cursor: pointer;
-      font-size: 1rem;
-      border-radius: 5px;
-      color: #000;
-      text-align: center;
-      font-family: "Mukta Mahee";
-      font-size: 1.5rem;
-      font-style: normal;
-      font-weight: 800;
-      line-height: normal;
+
+    .destaque-secundario1, .destaque-secundario2 {
+        width: 35vw; 
+        height: 30vh; 
+        overflow: hidden; 
+        display: flex; 
+        justify-content: center; 
+        align-items: center; 
+        box-shadow: 0 0 50px rgba(13, 13, 13, 0.7);
+        border-radius: 10px;
     }
-    
-    .adicionar:hover {
-      background-color: #4D5E44;
-      color: #000;
+
+    .destaque-principal {
+        display: flex;
+        flex-direction: column; 
+        align-items: center; 
+        width: 75vw;
+        height: 40vh; 
+        overflow: hidden; 
+        box-shadow: 0 0 50px rgba(13, 13, 13, 0.7);
+        border-radius: 10px;
     }
-    
-    .bebida-button:hover {
-      background-color: #4D5E44;
-      color: #000;
+
+    .destaque-img {
+        width: 100%; 
+        height: 100%; 
+        object-fit: cover; 
     }
-    
-    .menu-items {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-      justify-content: center;
-    }
-    
-    .menu-item {
-      margin-top: 1rem;
-      border: 1px solid black;
-      padding: 10px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 23.5vw;
-    }
-    
-    .menu-item-content {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      
-    }
-    
-    .menu-item-text {
-      flex-grow: 1;
-    }
-    
-    h2 {
-      color: #000;
-      font-family: "Mukta Mahee";
-      font-size: 1rem;
-      font-style: normal;
-      font-weight: 800;
-      line-height: 166.142%;
-      margin: 0;
-      padding: 0;
-    }
-    
-    .edit-button {
-      margin-left: 0.3em;
-      width: 2.8125rem;
-      height: 2.8125rem;
-      flex-shrink: 0;
-      border-radius: 0.3125rem;
-      background: #5E8221;
-      border: none;
-      cursor: pointer;
-    }
-    
-    .edit-icon {
-      width:50%;
-      height: 40%;
-    }
-    
-    p {
-      color: #2E2E2E;
-      font-family: "Mukta Mahee";
-      font-size: 1rem;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 166.142%;
-      margin: 0;
-      padding: 0;
-    }
-    
-    .tipos-button button {
-      background-color: transparent;
-      border: none;
-      padding: 5px 10px;
-      cursor: pointer;
-      font-size: 1rem;
-      margin-top: 1rem;
-      border-radius: 5px;
-      margin-right: 10px;
-      color: #000;
-      text-align: center;
-      font-family: "Mukta Mahee";
-      font-style: normal;
-      font-weight: 800;
-      line-height: normal;
-    }
-    
-    .tipos-button .active-button {
-      background-color: #394F14;
-      color: white;
-    }
-    
-    /* Estilos para o modal */
-    .modal {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: fixed;
-      z-index: 1;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0, 0, 0, 0.4);
-    }
-    
-    .modal-content {
-      background-color: #fefefe;
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%;
-      max-width: 500px;
-      margin: auto;
-      border-radius: 5px;
-      font-family: "Mukta Mahee";
-      font-size: 1rem;
-      font-style: normal;
-      font-weight: 800;
-    }
-    
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-    }
-    
-    .close:hover,
-    .close:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-    }
-    
-    .delete-button {
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-      margin-top: 10px;
-      margin-left: auto;
-    }
-    
-    .delete-icon {
-      width: 1vw;
-      height: auto;
-    }
-    
-    input, select {
-      width: 95%;
-      padding: 0.5rem;
-      margin-right: 0.5rem;
-      margin-bottom: 0.5rem;
-      border: 1px solid #ccc;
-      border-radius: 0.25rem;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adiciona sombra aos inputs */
-    }
-    .salvar {
-      background-color: #4a5d23;
-      color: #d9d9d9;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      width: 20wh;
-      font-size: 16px;
-      margin-top: 1rem;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    
-    .inline-fields {
-      display: flex;
-      justify-content: space-between;
-      margin-right: 1rem;
-    }
-    
-    .field {
-      margin-right: 1rem;
-    
-    }
-    
-    .field:last-child {
-      margin-right: 0;
-    }
-    
-    .delete-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 1rem;
-    }
-    
-    .name {
-      flex-grow: 1;
-    }
+
     
     /* Media queries para responsividade */
     @media (max-width: 768px) {
