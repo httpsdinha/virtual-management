@@ -77,3 +77,9 @@ CREATE TABLE menu_items (
   categoria VARCHAR(50) NOT NULL
 );
 ```
+```
+CREATE TABLE imagens (
+    id SERIAL PRIMARY KEY,
+    imagem BYTEA
+);
+```

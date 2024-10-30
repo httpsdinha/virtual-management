@@ -62,7 +62,7 @@
         async enviarImagem() {
         if (this.imagemBase64) {
             try {
-            await axios.post("http://localhost:3000/api/upload-imagem", {
+            await axios.post("http://localhost:3000/imagem/upload-imagem/1", {
                 imagem: this.imagemBase64,
             });
             alert("Imagem enviada com sucesso!");
