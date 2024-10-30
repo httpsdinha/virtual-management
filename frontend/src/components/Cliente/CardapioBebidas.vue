@@ -15,7 +15,7 @@
       <main class="main">
         <header class="header">
           <div class="header-content">
-            <h1>PIZZAS</h1>
+            <h1>BEBIDAS</h1>
             <div class="header-botao">
               <button class="header-icon-button" @click="goToPage('/')">
                 <img src="@/assets/home.png" alt="Home Icon" class="home-icon" />
@@ -32,8 +32,10 @@
   
         <div class="tipo-pizza">
           <hr class="divider1">
-          <button class="sabor-pizza"><h2>Salgada</h2></button>
-          <button class="sabor-pizza"><h2>Doce</h2></button>
+          <button class="refrigerante" :class="{'active-button': activeButton === 'Refrigerante'}" @click="fetchMenuItems('Refrigerante')"><h2>Refrigerante</h2></button>
+          <button class="cerveja" :class="{'active-button': activeButton === 'Cerveja'}" @click="fetchMenuItems('Cerveja')"><h2>Cerveja</h2></button>
+          <button class="drinks" :class="{'active-button': activeButton === 'Drinks'}" @click="fetchMenuItems('Drinks')"><h2>Drinks</h2></button>
+          <button class="agua" :class="{'active-button': activeButton === 'Agua'}" @click="fetchMenuItems('Agua')"><h2>Água</h2></button>
           <hr class="divider2">
         </div>
         <div class="menu-container">
@@ -61,28 +63,26 @@
     data() {
       return {
         menuItems: [],
-        activeButton: 'pizza',
-        showModal: false,
-        selectedItem: null,
+        activeButton: 'Refrigerante', 
       };
     },
     methods: {
       goToPage(page) {
         this.$router.push(page);
       },
-      async fetchMenuItems(tipo) {
+      async fetchMenuItems(categoria) {
         try {
-          const response = await axios.get(`http://localhost:3000/menu/list?tipo=${tipo}`);
+          const response = await axios.get(`http://localhost:3000/menu/list?categoria=${categoria}`);
           this.menuItems = response.data;
-          this.activeButton = tipo;
+          this.activeButton = categoria;
         } catch (error) {
           console.error('Erro ao buscar itens do menu:', error);
         }
       },
     },
     created() {
-      this.fetchMenuItems('pizza');
-    }
+      this.fetchMenuItems(this.activeButton);
+    },
   };
   </script>
   
@@ -129,21 +129,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  
-  .sabor-pizza {
-    background: none;
-    border: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0 10px;
-    cursor: pointer;
-  }
-  
-  .sabor-pizza:hover {
-    background: rgba(94, 130, 33, 0.2);
-    border-radius: 5px;
   }
   
   .menu-items {
@@ -251,5 +236,32 @@
     margin: 1px;
   }
   
+  .tipo-pizza button {
+    background: none;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 10px;
+    cursor: pointer;
+    color: #000
+  }
+  
+  .tipo-pizza .active-button {
+    background: rgba(94, 130, 33);
+    border: none;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 10px;
+    cursor: pointer;
+    color: white;
+  }
+  
+  .tipo-pizza button:hover {
+    background: rgba(94, 130, 33, 0.2);
+    border-radius: 5px;
+  }
   </style>
   

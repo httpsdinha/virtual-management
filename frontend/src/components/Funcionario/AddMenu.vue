@@ -11,6 +11,9 @@
         <button class="transparent-button" @click="goToPage('/alterarmenu')">
           ALTERAR
         </button>
+        <button class="transparent-button" @click="goToPage('/alterardestaque')">
+          DESTAQUE
+        </button>
       </div>
     </nav>
 
@@ -288,6 +291,7 @@ export default {
 .form-container button:hover {
   background-color: #3a4d1a;
 }
+
 .form-container button {
   background-color: #4a5d23;
   color: #d9d9d9;

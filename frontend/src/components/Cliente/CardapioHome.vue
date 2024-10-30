@@ -80,7 +80,7 @@
         width: 75%; 
         padding: 10px;
         margin-bottom: 0.5vh;
-        margin-left: 35vh;
+        margin-left: 45vh;
     }
 
     /* Container para o h1 e os botões */

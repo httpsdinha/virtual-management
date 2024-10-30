@@ -11,6 +11,9 @@
         <button class="transparent-button" @click="goToPage('/alterarmenu')">
           ALTERAR
         </button>
+        <button class="transparent-button" @click="goToPage('/alterardestaque')">
+          DESTAQUE
+        </button>
       </div>
     </nav>
 

@@ -129,58 +129,32 @@ export default {
   justify-content: center;
 }
 
-
-.pizza-doce {
-  background: none;
-  border: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0 10px;
-  cursor: pointer;
-}
-
-.pizza-salgada {
-  background: rgba(94, 130, 33);
-  border: none;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0 10px;
-  cursor: pointer;
-  color: white;
-}
-
-
-.pizza-doce:hover {
-  background: rgba(94, 130, 33, 0.2);
-  border-radius: 5px;
-}
-
 .menu-items {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  flex-direction: column;
-  margin-top: 1rem;
-  gap: 1rem;
-  align-items: flex-start;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  justify-content: center;
 }
 
 .menu-item {
+  margin-top: 1rem;
   border: 1px solid black;
   padding: 10px;
-  width: 23.8125rem;
-  height: 5.75rem;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  width: 23.5vw;
 }
 
 .menu-item-content {
   display: flex;
+  justify-content: center;
   align-items: center;
-  padding: 5px;
+  width: 100%;
+  
 }
 
 .menu-item-text h2,
@@ -263,4 +237,34 @@ export default {
   margin: 1px;
 }
 
+.tipo-pizza button {
+  background: none;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 10px;
+  cursor: pointer;
+  color: #000
+}
+
+.tipo-pizza .active-button {
+  background: rgba(94, 130, 33);
+  border: none;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 10px;
+  cursor: pointer;
+  color: white;
+}
+
+.tipo-pizza button:hover {
+  background: rgba(94, 130, 33, 0.2);
+  border-radius: 5px;
+}
+
+
 </style>
+
