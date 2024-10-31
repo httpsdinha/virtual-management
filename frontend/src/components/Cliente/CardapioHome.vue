@@ -1,5 +1,6 @@
     <template>
         <div class="main">
+            <CartPopup :cart="cart" :totalAmount="totalAmount" :isCartOpen="isCartOpen" @toggleCart="toggleCart" @removeFromCart="removeFromCart" />
             <header class="header">
                 <div class="header-content">
                     <h1>DESTAQUES</h1>
@@ -10,7 +11,7 @@
                         <button class="header-icon-button" @click="goToPage('/garcom')">
                             <img src="@/assets/garcom.png" alt="Waiter Icon" class="garcom-icon" />
                         </button>
-                        <button class="header-icon-button" @click="goToPage('/')">
+                        <button class="header-icon-button" @click="toggleCart">
                             <img src="@/assets/carrinho.png" alt="Cart Icon" class="carrinho-icon" />
                         </button>
                     </div>
@@ -44,18 +45,55 @@
                     <button class="transparent-button" @click="goToPage('/cardapiobebida')">
                     BEBIDAS
                     </button>
-                    <button class="transparent-button" @click="goToPage('/cardapiorodizio')">
-                    RODÍZIO
-                    </button>
                 </div>
             </nav>
+            <CartPopup :addItemCount="addItemCount" :totalQuantity="totalQuantity" v-if="isCartOpen" />
         </div>
     </template>
 
     <script>
+    import CartPopup from './CartPopup.vue';
     export default {
+        components: { CartPopup },
+  data() {
+    return {
+      activeButton: '',
+      menuItems: [],
+      cart: JSON.parse(localStorage.getItem('cart')) || [],
+      addItemCount: 0,
+      isCartOpen: false
+    };
+  },
+  computed: {
+    totalQuantity() {
+      return this.cart.reduce((total, item) => total + item.quantity, 0);
+    },
+    totalAmount() {
+      return this.cart.reduce((total, item) => total + item.preco * item.quantity, 0); 
+    }
+  },
         name: 'CardapioHome',
         methods: {
+            toggleCart(){
+      this.isCartOpen = !this.isCartOpen;
+    },
+    addToCart(product){
+      const existingItem = this.cart.find(item => item.id === product.id);
+      if (existingItem){
+        existingItem.quantity += 1;
+      } else {
+        this.cart.push({...product, quantity: 1});
+      }
+      this.addItemCount++;
+      this.saveCartToLocalStorage();
+    },
+    removeFromCart(productId){
+      this.cart = this.cart.filter(item => item.id !== productId);
+      this.saveCartToLocalStorage();
+    },
+    saveCartToLocalStorage() {
+      localStorage.setItem('cart', JSON.stringify(this.cart)); 
+    },
             goToPage(route) {
                 this.$router.push(route);
             }

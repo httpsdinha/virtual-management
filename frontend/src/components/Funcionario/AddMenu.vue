@@ -62,7 +62,7 @@
             </div>
           <div>
             <label for="descricao" class="descricao-label">Descrição</label>
-            <textarea maxlength="40" id="descricao" v-model="produto.descricao"></textarea>
+            <textarea maxlength="60" id="descricao" v-model="produto.descricao"></textarea>
           </div>
           <button class="salvar" type="submit">Adicionar</button>
         </form>

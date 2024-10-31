@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <CartPopup :cart="cart" :isCartOpen="isCartOpen" @toggleCart="toggleCart" @removeFromCart="removeFromCart" />
+    <CartPopup :cart="cart" :totalAmount="totalAmount" :isCartOpen="isCartOpen" @toggleCart="toggleCart" @removeFromCart="removeFromCart" />
     <aside class="menu-lateral">
       <img src="@/assets/logo.png" alt="Logo" class="logo">
       <hr class="divider">
@@ -9,7 +9,6 @@
         <button class="transparent-button" @click="goToPage('/cardapiohome')">DESTAQUES</button>
         <button class="transparent-button" @click="goToPage('/cardapiopizza')">PIZZAS</button>
         <button class="transparent-button" @click="goToPage('/cardapiobebida')">BEBIDAS</button>
-        <button class="transparent-button" @click="goToPage('/cardapiorodizio')">RODÍZIO</button>
       </div>
     </aside>
 
@@ -64,9 +63,9 @@ export default {
   components: { CartPopup },
   data() {
     return {
-      activeButton: '',
+      activeButton: 'Salgada',
       menuItems: [],
-      cart: [],
+      cart: JSON.parse(localStorage.getItem('cart')) || [],
       addItemCount: 0,
       isCartOpen: false
     };
@@ -74,6 +73,9 @@ export default {
   computed: {
     totalQuantity() {
       return this.cart.reduce((total, item) => total + item.quantity, 0);
+    },
+    totalAmount() {
+      return this.cart.reduce((total, item) => total + item.preco * item.quantity, 0); 
     }
   },
   methods: {
@@ -88,9 +90,14 @@ export default {
         this.cart.push({...product, quantity: 1});
       }
       this.addItemCount++;
+      this.saveCartToLocalStorage();
     },
     removeFromCart(productId){
       this.cart = this.cart.filter(item => item.id !== productId);
+      this.saveCartToLocalStorage();
+    },
+    saveCartToLocalStorage() {
+      localStorage.setItem('cart', JSON.stringify(this.cart)); 
     },
     goToPage(page) {
       this.$router.push(page);
@@ -161,7 +168,7 @@ export default {
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   justify-content: center;
 }
@@ -173,7 +180,6 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 23.5vw;
 }
 
 .menu-item-content {
@@ -184,9 +190,14 @@ export default {
   
 }
 
-.menu-item-text h2,
+.menu-item-text h2{
+  margin: 0;
+  font-size: 22px;
+}
+
 .menu-item-text p {
   margin: 0;
+  font-size: 15px;
 }
 
 .menu-item-text {

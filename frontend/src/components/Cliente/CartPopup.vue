@@ -15,6 +15,8 @@
           <p class="preco">{{ item.preco }}</p>
         </div>
       </div>
+      <hr class="cart-divider">
+      <h2 class="total">Total: R$ {{ totalAmount }}</h2>
       <div class="cart-footer">
         <button class="cart-button" @click="checkout">PEDIR</button>
       </div>
@@ -35,6 +37,10 @@ export default {
     },
     cart: {
       type: Array,
+      required: true,
+    },
+    totalAmount: {
+      type: String,
       required: true,
     },
     isCartOpen: {
@@ -169,6 +175,10 @@ export default {
   font-size: 16px;
   cursor: pointer;
   margin-top: 0.8rem;
+}
+
+.total{
+  margin-left: 1rem;
 }
 
   </style>

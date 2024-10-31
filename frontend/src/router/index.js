@@ -8,7 +8,6 @@ const ChamarGarcom = () => import('../components/Cliente/ChamarGarcom.vue');
 const PagarConta = () => import('../components/Cliente/PagarConta.vue');
 const CardapioPizza = () => import('../components/Cliente/CardapioPizza.vue');
 const CardapioBebida = () => import('../components/Cliente/CardapioBebidas.vue');
-const CardapioRodizio = () => import('../components/Cliente/CardapioRodizio.vue');
 const TelaFuncionario = () => import('../components/Funcionario/TelaFuncionario.vue');
 const TelaTablesLivre = () => import('../components/Funcionario/TelaTablesLivre.vue');
 const EditMenu = () => import('../components/Funcionario/EditMenu.vue');
@@ -49,11 +48,6 @@ const router = createRouter({
       path: '/cardapiobebida',
         name: 'cardapiobebida',
         component: CardapioBebida,
-    },
-    {
-      path: '/cardapiorodizio',
-        name: 'cardapiorodizio',
-        component: CardapioRodizio,
     },
     {
       path: '/funcionario',
