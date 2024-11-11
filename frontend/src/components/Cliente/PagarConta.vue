@@ -1,9 +1,9 @@
 <template>
     <div class="main">
-    <button class="voltar-button" @click="goToPage('/')">
+        <button class="voltar-button" @click="goToPage('/')">
             <img src="@/assets/voltar.png" alt="Voltar" class="Voltar">
-    </button>
-</div>
+        </button>
+    </div>
 </template>
 
 <script>
@@ -23,12 +23,11 @@ export default {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: linear-gradient(
-        to bottom,
-        #5E8221 0%,
-        #394F14 100%
-    );
+    background: linear-gradient(to bottom,
+            #5E8221 0%,
+            #394F14 100%);
 }
+
 .voltar-button {
     position: absolute;
     top: 20px;

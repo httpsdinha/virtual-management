@@ -1,8 +1,8 @@
-const pool = require('../config/db');
+const pool = require("../config/db");
 
 const addMenuItem = async (nome, descricao, preco, tipo, categoria) => {
   const { rows } = await pool.query(
-    'INSERT INTO menu_items (nome, descricao, preco, tipo, categoria) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+    "INSERT INTO menu_items (nome, descricao, preco, tipo, categoria) VALUES ($1, $2, $3, $4, $5) RETURNING *",
     [nome, descricao, preco, tipo, categoria]
   );
   return rows[0]; // Retorna o primeiro item inserido
@@ -10,7 +10,7 @@ const addMenuItem = async (nome, descricao, preco, tipo, categoria) => {
 
 const updateMenuItem = async (id, nome, descricao, preco, tipo, categoria) => {
   const { rows } = await pool.query(
-    'UPDATE menu_items SET nome = $1, descricao = $2, preco = $3, tipo = $4, categoria = $5 WHERE id = $6 RETURNING *',
+    "UPDATE menu_items SET nome = $1, descricao = $2, preco = $3, tipo = $4, categoria = $5 WHERE id = $6 RETURNING *",
     [nome, descricao, preco, tipo, categoria, id]
   );
   return rows[0]; // Retorna o item atualizado
@@ -18,14 +18,14 @@ const updateMenuItem = async (id, nome, descricao, preco, tipo, categoria) => {
 
 const deleteMenuItem = async (id) => {
   const { rows } = await pool.query(
-    'DELETE FROM menu_items WHERE id = $1 RETURNING *',
+    "DELETE FROM menu_items WHERE id = $1 RETURNING *",
     [id]
   );
   return rows[0]; // Retorna o item excluído
 };
 
 const getMenuItems = async ({ tipo, categoria, id }) => {
-  let query = 'SELECT * FROM menu_items';
+  let query = "SELECT * FROM menu_items";
   const values = [];
   const conditions = [];
 
@@ -47,7 +47,7 @@ const getMenuItems = async ({ tipo, categoria, id }) => {
 
   // Concatena as condições na query SQL
   if (conditions.length > 0) {
-    query += ' WHERE ' + conditions.join(' AND ');
+    query += " WHERE " + conditions.join(" AND ");
   }
 
   // Executa a query e retorna os resultados

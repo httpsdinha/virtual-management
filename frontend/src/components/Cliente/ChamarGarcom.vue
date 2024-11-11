@@ -3,8 +3,8 @@
         <img src="@/assets/garcom.png" alt="Garçom" class="garcom">
         <div class="status-container">
             <div class="status">
-            <p>{{ statusText }}</p>
-         </div>
+                <p>{{ statusText }}</p>
+            </div>
             <div class="button-container">
                 <button v-if="isCalled" class="cancel-button" @click="cancelar">Cancelar</button>
                 <button v-if="!isCalled" class="call-button" @click="chamarGarcom">Chamar Garçom</button>
@@ -19,25 +19,37 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     name: 'ChamarGarcom',
     data() {
         return {
-            isCalled: true, 
-            statusText: 'GARÇOM A CAMINHO', 
+            isCalled: true,
+            statusText: 'GARÇOM A CAMINHO',
         };
     },
     methods: {
         goToPage(route) {
             this.$router.push(route);
         },
-        cancelar() {
-            this.isCalled = false; 
-            this.statusText = 'CHAMADO CANCELADO'; 
+        async cancelar() {
+            this.isCalled = false;
+            this.statusText = 'CHAMADO CANCELADO';
+            try {
+                await axios.put('http://localhost:3000/tables/1', { status: 'ocupada' });
+            } catch (error) {
+                console.error('Erro ao cancelar chamado:', error);
+            }
         },
-        chamarGarcom() {
-            this.isCalled = true; 
-            this.statusText = 'GARÇOM A CAMINHO'; 
+        async chamarGarcom() {
+            this.isCalled = true;
+            this.statusText = 'GARÇOM A CAMINHO';
+            try {
+                await axios.put('http://localhost:3000/tables/1', { status: 'garcom-solicitado' });
+            } catch (error) {
+                console.error('Erro ao chamar garçom:', error);
+            }
         }
     }
 }
@@ -48,58 +60,57 @@ export default {
     margin: 0;
     position: relative;
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: linear-gradient(
-        to bottom,
-        #5E8221 0%,
-        #394F14 100%
-    );
+    background: linear-gradient(to bottom,
+            #5E8221 0%,
+            #394F14 100%);
 }
 
 .garcom {
     width: 30%;
-    max-width: 300px; 
-    margin-bottom: 20px; 
+    max-width: 300px;
+    margin-bottom: 20px;
 }
 
 .status-container {
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    width: 100%; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }
 
 .status {
     font-family: 'Mukta Mahee';
     font-weight: bold;
     font-size: 2rem;
-    text-align: center; 
-    border: 2px solid black; 
+    text-align: center;
+    border: 2px solid black;
     padding: 50px;
-    margin-bottom: 10px; 
+    margin-bottom: 10px;
 }
 
 .button-container {
-    display: flex; 
+    display: flex;
     justify-content: flex-end;
-    width: 100%; 
-    max-width: 400px; 
-    margin-top: 10px; 
+    width: 100%;
+    max-width: 400px;
+    margin-top: 10px;
 }
 
-.cancel-button, .call-button {
-    background-color: #CCCBC9; 
-    border: none; 
-    color: rgb(0, 0, 0); 
-    padding: 10px 20px; 
-    font-size: 16px; 
-    cursor: pointer; 
-    border-radius: 5px; 
+.cancel-button,
+.call-button {
+    background-color: #CCCBC9;
+    border: none;
+    color: rgb(0, 0, 0);
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
     font-weight: bold;
-    margin-left: 10px; 
+    margin-left: 10px;
 }
 
 .voltar-button {
@@ -115,6 +126,4 @@ export default {
     width: 50px;
     height: auto;
 }
-
-
 </style>

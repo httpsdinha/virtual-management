@@ -12,6 +12,7 @@ const TelaFuncionario = () => import('../components/Funcionario/TelaFuncionario.
 const TelaTablesLivre = () => import('../components/Funcionario/TelaTablesLivre.vue');
 const EditMenu = () => import('../components/Funcionario/EditMenu.vue');
 const AddMenu = () => import('../components/Funcionario/AddMenu.vue');
+const TelaComandas = () => import('../components/Funcionario/TelaComandas.vue');
 // Obter a URL base a partir da variável de ambiente
 const baseUrl = process.env.VUE_APP_BASE_URL || '/';
 
@@ -68,6 +69,11 @@ const router = createRouter({
         name: 'addmenu',
         component: AddMenu,
     },
+    {
+      path:'/comandas',
+        name: 'comandas',
+        component: TelaComandas,
+    }
   ],
 });
 

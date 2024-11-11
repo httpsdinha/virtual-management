@@ -1,15 +1,18 @@
 <template>
-<div class="container">
+  <div class="container">
     <nav class="menu-lateral">
       <img src="@/assets/logo.png" alt="Logo" class="logo" />
       <hr class="divider" />
       <h1>MENU</h1>
       <div class="menus-botton">
         <button class="transparent-button" @click="goToPage('/funcionario')">
-          COMANDAS
+          MESAS
         </button>
         <button class="transparent-button" @click="goToPage('/alterarmenu')">
           ALTERAR
+        </button>
+        <button class="transparent-button" @click="goToPage('/comandas')">
+          COMANDAS
         </button>
       </div>
     </nav>
@@ -20,7 +23,7 @@
           <h1>ADICIONAR</h1>
           <div class="botao-status">
             <button class="editar" @click="goToPage('/alterarmenu')">EDITAR</button>
-            <button class="adicionar"  @click="goToPage('/adicionarmenu')">ADICIONAR</button>
+            <button class="adicionar" @click="goToPage('/adicionarmenu')">ADICIONAR</button>
           </div>
           <div class="header-botao">
             <button class="header-icon-button" @click="goToPage('/')">
@@ -31,43 +34,43 @@
         <hr class="divider1">
         <div class="form-container">
           <div class="form-wrapper">
-          <form @submit.prevent="adicionarProduto">
-            <div>
-              <label for="nome">Nome</label>
-              <input type="text" id="nome" v-model="produto.nome" required />
-            </div>
-            <div class="inline-fields">
-            <div>
-              <label for="tipo">Tipo</label>
-              <select id="tipo" v-model="produto.tipo" required>
-                <option value="pizza">Pizza</option>
-                <option value="bebida">Bebida</option>
-              </select>
-             </div>
-          <div>
-            <label for="categoria">Categoria</label>
-            <select id="categoria" v-model="produto.categoria" required>
-              <option v-for="categoria in filteredCategorias" :key="categoria" :value="categoria">
-                {{ categoria }}
-              </option>
-            </select>
+            <form @submit.prevent="adicionarProduto">
+              <div>
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" v-model="produto.nome" required />
+              </div>
+              <div class="inline-fields">
+                <div>
+                  <label for="tipo">Tipo</label>
+                  <select id="tipo" v-model="produto.tipo" required>
+                    <option value="pizza">Pizza</option>
+                    <option value="bebida">Bebida</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="categoria">Categoria</label>
+                  <select id="categoria" v-model="produto.categoria" required>
+                    <option v-for="categoria in filteredCategorias" :key="categoria" :value="categoria">
+                      {{ categoria }}
+                    </option>
+                  </select>
+                </div>
+                <div>
+                  <label for="preco">Preço</label>
+                  <input type="text" id="preco" v-model="produto.preco" @input="formatarPreco" required />
+                </div>
+              </div>
+              <div>
+                <label for="descricao" class="descricao-label">Descrição</label>
+                <textarea maxlength="60" id="descricao" v-model="produto.descricao"></textarea>
+              </div>
+              <button class="salvar" type="submit">Adicionar</button>
+            </form>
           </div>
-          <div>
-            <label for="preco">Preço</label>
-            <input type="text" id="preco" v-model="produto.preco" @input="formatarPreco" required />
-          </div>
-            </div>
-          <div>
-            <label for="descricao" class="descricao-label">Descrição</label>
-            <textarea maxlength="60" id="descricao" v-model="produto.descricao"></textarea>
-          </div>
-          <button class="salvar" type="submit">Adicionar</button>
-        </form>
-      </div>
         </div>
-    </header>
+      </header>
+    </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -83,7 +86,7 @@ export default {
         preco: '',
         descricao: ''
       },
-      categorias:{
+      categorias: {
         pizza: ['Salgada', 'Doce'],
         bebida: ['Refrigerante', 'Cerveja', 'Drinks', 'Agua']
       }
@@ -119,7 +122,7 @@ export default {
       try {
         // Removendo a formatação de moeda
         const precoNumerico = parseFloat(this.produto.preco.replace(/[^\d,]/g, '').replace(',', '.'));
-        
+
         // Estrutura do produto para envio
         const produtoParaEnvio = {
           nome: this.produto.nome,
@@ -144,13 +147,14 @@ export default {
 
 <style scoped>
 .main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    background: #CCCBC9;
-    font-family: 'Mukta Mahee';
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background: #CCCBC9;
+  font-family: 'Mukta Mahee';
 }
+
 .menu-lateral {
   width: 15vw;
   background: linear-gradient(to bottom, #5E8221 0%, #394F14 100%);
@@ -161,16 +165,19 @@ export default {
   font-family: 'Mukta Mahee';
   font-weight: bold;
 }
+
 .logo {
   margin-top: 2vh;
   width: 10vw;
   height: auto;
 }
+
 .container {
   display: flex;
   height: 100vh;
   background: #CCCBC9;
 }
+
 .menus-botton {
   display: flex;
   margin-top: 2vh;
@@ -196,6 +203,7 @@ export default {
   justify-content: center;
   align-items: center;
 }
+
 .transparent-button:hover {
   background: #344D0B;
   color: black;
@@ -266,8 +274,9 @@ export default {
   font-weight: 800;
   line-height: normal;
 }
+
 .adicionar {
-  background-color: #394F14; 
+  background-color: #394F14;
   border: none;
   padding: 10px 20px;
   cursor: pointer;
@@ -281,10 +290,12 @@ export default {
   font-weight: 800;
   line-height: normal;
 }
+
 .editar:hover {
   background-color: #4D5E44;
   color: #000;
 }
+
 .form-container button:hover {
   background-color: #3a4d1a;
 }
@@ -302,7 +313,10 @@ export default {
   margin-left: auto;
   margin-right: auto;
 }
-.form-container input, .form-container select, .form-container textarea {
+
+.form-container input,
+.form-container select,
+.form-container textarea {
   width: 100%;
   padding: 8px;
   margin-bottom: 1.2rem;
@@ -311,12 +325,13 @@ export default {
   background-color: #d9d9d9;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
 .form-container {
   margin-top: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 60vh; 
+  height: 60vh;
   width: 50vw;
   margin: 0 auto;
   font-family: "Mukta Mahee";
@@ -332,33 +347,38 @@ export default {
 }
 
 .form-wrapper {
-  width: 50%; /* Ajuste a largura conforme necessário */
+  width: 50%;
+  /* Ajuste a largura conforme necessário */
 }
+
 .inline-fields {
   display: flex;
   justify-content: space-between;
 }
 
-.inline-fields > div {
+.inline-fields>div {
   flex: 1;
   margin-right: 10px;
 }
 
-.inline-fields > div:last-child {
+.inline-fields>div:last-child {
   margin-right: 0;
 }
 
 .form-container textarea#descricao {
-  height: 8vh; /* Ajuste a altura conforme necessário */
+  height: 8vh;
+  /* Ajuste a altura conforme necessário */
 }
 
-input, select {
+input,
+select {
   width: 100%;
   padding: 0.5rem;
   margin-top: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 0.25rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adiciona sombra aos inputs */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* Adiciona sombra aos inputs */
 }
 
 
@@ -380,7 +400,7 @@ input, select {
   gap: 1rem;
 }
 
-.inline-fields > div {
+.inline-fields>div {
   flex: 1;
   min-width: 150px;
 }
@@ -392,7 +412,8 @@ input, select {
   }
 }
 
-.botao-status, .header-botao {
+.botao-status,
+.header-botao {
   display: flex;
   justify-content: space-around;
   margin-bottom: 1rem;
@@ -403,7 +424,9 @@ button {
   font-size: 1rem;
 }
 
-input, select, textarea {
+input,
+select,
+textarea {
   width: 100%;
   padding: 0.5rem;
   margin-top: 0.5rem;

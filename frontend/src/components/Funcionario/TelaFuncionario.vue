@@ -5,11 +5,14 @@
       <hr class="divider" />
       <h1>MENU</h1>
       <div class="menus-botton">
-        <button class="transparent-button">
-          COMANDAS
+        <button class="transparent-button" @click="goToPage('/funcionario')">
+          MESAS
         </button>
         <button class="transparent-button" @click="goToPage('/alterarmenu')">
           ALTERAR
+        </button>
+        <button class="transparent-button" @click="goToPage('/comandas')">
+          COMANDAS
         </button>
       </div>
     </nav>
@@ -33,21 +36,18 @@
 
       <section class="tables">
         <div class="mesa-botoes">
-          <button 
-            v-for="mesa in mesasVisiveis" 
-            :key="mesa.id" 
-            :class="{
-              'mesa-ocupada': mesa.status === 'ocupada', 
-              'mesa-finalizada': mesa.status === 'finalizada',
-              'mesa-livre': mesa.status === 'livre'
-              }" 
-            @click="selecionarMesa(mesa)">
+          <button v-for="mesa in mesasVisiveis" :key="mesa.id" :class="{
+            'mesa-ocupada': mesa.status === 'ocupada',
+            'mesa-finalizada': mesa.status === 'finalizada',
+            'mesa-livre': mesa.status === 'livre',
+            'mesa-garcom-solicitado': mesa.status === 'garcom-solicitado'
+          }" @click="selecionarMesa(mesa)">
             MESA {{ mesa.id }}
           </button>
         </div>
       </section>
     </div>
-  
+
     <div v-if="mesaSelecionada" class="modal">
       <div class="modal-content">
         <span class="close" @click="fecharModal">&times;</span>
@@ -56,7 +56,8 @@
           <option value="ocupada">Ocupada</option>
           <option value="finalizada">Finalizada</option>
           <option value="livre">Livre</option>
-        </select>
+          <option value="garcom-solicitado">Garçom Solicitado</option>
+        </select><br><br>
         <button @click="atualizarStatusMesa(mesaSelecionada.id, novoStatus)">Alterar</button>
         <button @click="fecharModal">Cancelar</button>
       </div>
@@ -77,17 +78,19 @@ export default {
   },
   computed: {
     mesasVisiveis() {
+      console.log('Mesas:', this.mesas); // Debugging line
       return this.mesas.filter(mesa => mesa.status !== 'livre');
     }
   },
   methods: {
     goToPage(route) {
-            this.$router.push(route);
+      this.$router.push(route);
     },
     async fetchMesas() {
       try {
         const response = await axios.get('http://localhost:3000/tables');
         this.mesas = response.data;
+        console.log('Fetched mesas:', this.mesas); // Debugging line
       } catch (error) {
         console.error('Erro ao buscar mesas:', error);
       }
@@ -96,7 +99,7 @@ export default {
       try {
         const response = await axios.put(`http://localhost:3000/tables/${id}`, { status });
         const mesaAtualizada = response.data;
-        this.mesas = this.mesas.map(mesa => 
+        this.mesas = this.mesas.map(mesa =>
           mesa.id === mesaAtualizada.id ? mesaAtualizada : mesa
         );
         this.fecharModal();
@@ -139,16 +142,19 @@ export default {
   font-family: 'Mukta Mahee';
   font-weight: bold;
 }
+
 .logo {
   margin-top: 2vh;
   width: 10vw;
   height: auto;
 }
+
 .container {
   display: flex;
   height: 100vh;
   background: #CCCBC9;
 }
+
 .menus-botton {
   display: flex;
   margin-top: 2vh;
@@ -231,7 +237,7 @@ export default {
 }
 
 .andamento {
-  background-color: #394F14; 
+  background-color: #394F14;
   border: none;
   padding: 10px 20px;
   cursor: pointer;
@@ -296,6 +302,11 @@ export default {
   color: #000;
 }
 
+.mesa-garcom-solicitado {
+  background-color: #FFD700;
+  color: #000;
+}
+
 .modal {
   display: flex;
   justify-content: center;
@@ -332,6 +343,4 @@ export default {
   text-decoration: none;
   cursor: pointer;
 }
-
-
 </style>

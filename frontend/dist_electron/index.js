@@ -1762,7 +1762,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var elec
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("module.exports = __webpack_require__(/*! C:\\Users\\Amanda Gois\\Documents\\Estudos\\Faculdade\\4º Semestre\\apsoo\\virtual-management\\frontend\\src\\background.js */\"./src/background.js\");\n\n\n//# sourceURL=webpack:///multi_./src/background.js?");
+eval("module.exports = __webpack_require__(/*! C:\\Users\\Amanda Gois\\Documents\\Faculdade\\4º Semestre\\Analise e Projeto de Software Orientado a Objetos\\virtual-management\\frontend\\src\\background.js */\"./src/background.js\");\n\n\n//# sourceURL=webpack:///multi_./src/background.js?");
 
 /***/ }),
 

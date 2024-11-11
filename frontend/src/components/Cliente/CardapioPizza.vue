@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <CartPopup :cart="cart" :totalAmount="totalAmount" :isCartOpen="isCartOpen" @toggleCart="toggleCart" @removeFromCart="removeFromCart" />
+    <CartPopup :cart="cart" :totalAmount="totalAmount" :isCartOpen="isCartOpen" @toggleCart="toggleCart"
+      @removeFromCart="removeFromCart" />
     <aside class="menu-lateral">
       <img src="@/assets/logo.png" alt="Logo" class="logo">
       <hr class="divider">
@@ -32,24 +33,29 @@
 
       <div class="tipo-pizza">
         <hr class="divider1">
-        <button class="pizza-salgada" :class="{'active-button': activeButton === 'Salgada'}" @click="fetchMenuItems('Salgada')"><h2>Salgada</h2></button>
-        <button class="pizza-doce" :class="{'active-button': activeButton === 'Doce'}" @click="fetchMenuItems('Doce')"><h2>Doce</h2></button>
+        <button class="pizza-salgada" :class="{ 'active-button': activeButton === 'Salgada' }"
+          @click="fetchMenuItems('Salgada')">
+          <h2>Salgada</h2>
+        </button>
+        <button class="pizza-doce" :class="{ 'active-button': activeButton === 'Doce' }" @click="fetchMenuItems('Doce')">
+          <h2>Doce</h2>
+        </button>
         <hr class="divider2">
       </div>
       <div class="menu-container">
-      <div class="menu-items">
-        <div v-for="item in menuItems" :key="item.id" class="menu-item">
-          <div class="menu-item-content">
-            <div class="menu-item-text">
-              <h2>{{ item.nome }}</h2>
-              <p>{{ item.descricao }}</p>
-              <p>R$ {{ item.preco }}</p>
+        <div class="menu-items">
+          <div v-for="item in menuItems" :key="item.id" class="menu-item">
+            <div class="menu-item-content">
+              <div class="menu-item-text">
+                <h2>{{ item.nome }}</h2>
+                <p>{{ item.descricao }}</p>
+                <p>R$ {{ item.preco }}</p>
+              </div>
+              <img src="@/assets/adicionar.png" @click="addToCart(item)" class="adicionar-icon">
             </div>
-            <img src="@/assets/adicionar.png" @click="addToCart(item)" class="adicionar-icon">
           </div>
         </div>
       </div>
-    </div>
     </main>
     <CartPopup :addItemCount="addItemCount" :totalQuantity="totalQuantity" v-if="isCartOpen" />
   </div>
@@ -75,29 +81,29 @@ export default {
       return this.cart.reduce((total, item) => total + item.quantity, 0);
     },
     totalAmount() {
-      return this.cart.reduce((total, item) => total + item.preco * item.quantity, 0); 
+      return this.cart.reduce((total, item) => total + item.preco * item.quantity, 0);
     }
   },
   methods: {
-    toggleCart(){
+    toggleCart() {
       this.isCartOpen = !this.isCartOpen;
     },
-    addToCart(product){
+    addToCart(product) {
       const existingItem = this.cart.find(item => item.id === product.id);
-      if (existingItem){
+      if (existingItem) {
         existingItem.quantity += 1;
       } else {
-        this.cart.push({...product, quantity: 1});
+        this.cart.push({ ...product, quantity: 1 });
       }
       this.addItemCount++;
       this.saveCartToLocalStorage();
     },
-    removeFromCart(productId){
+    removeFromCart(productId) {
       this.cart = this.cart.filter(item => item.id !== productId);
       this.saveCartToLocalStorage();
     },
     saveCartToLocalStorage() {
-      localStorage.setItem('cart', JSON.stringify(this.cart)); 
+      localStorage.setItem('cart', JSON.stringify(this.cart));
     },
     goToPage(page) {
       this.$router.push(page);
@@ -187,10 +193,10 @@ export default {
   justify-content: center;
   align-items: center;
   width: 100%;
-  
+
 }
 
-.menu-item-text h2{
+.menu-item-text h2 {
   margin: 0;
   font-size: 22px;
 }
@@ -201,7 +207,7 @@ export default {
 }
 
 .menu-item-text {
-  width: 20rem; 
+  width: 20rem;
 }
 
 .adicionar-icon {
@@ -237,7 +243,7 @@ export default {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  
+
 }
 
 .transparent-button {
@@ -269,7 +275,8 @@ export default {
   margin: 5px 0;
 }
 
-.divider1, .divider2 {
+.divider1,
+.divider2 {
   width: 100%;
   border: 1px solid rgba(57, 79, 20, 0.3);
   margin: 1px;
@@ -303,10 +310,8 @@ export default {
   border-radius: 5px;
 }
 
-.carrinho-icon{
+.carrinho-icon {
   width: 25px;
   height: auto;
 }
-
 </style>
-

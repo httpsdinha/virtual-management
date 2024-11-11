@@ -21,10 +21,6 @@
       <header class="header">
         <div class="header-content">
           <h1>COMANDAS</h1>
-          <div class="botao-status">
-            <button class="andamento" @click="goToPage('/funcionario')">EM ANDAMENTO</button>
-            <button class="livre">LIVRE</button>
-          </div>
           <div class="header-botao">
             <button class="header-icon-button" @click="goToPage('/')">
               <img src="@/assets/home.png" alt="Home Icon" class="home-icon" />
@@ -35,33 +31,22 @@
       </header>
 
       <section class="tables">
-        <div class="mesa-botoes">
-          <button 
-            v-for="mesa in mesasVisiveis" 
-            :key="mesa.id" 
-            :class="{
-              'mesa-ocupada': mesa.status === 'ocupada', 
-              'mesa-finalizada': mesa.status === 'finalizada',
-              'mesa-livre': mesa.status === 'livre'
-              }" 
-            @click="selecionarMesa(mesa)">
-            MESA {{ mesa.id }}
+        <div class="pedido-botoes">
+          <button v-for="pedido in pedidos" :key="pedido.id" @click="selecionarPedido(pedido)">
+            PEDIDO: MESA 1
           </button>
         </div>
       </section>
     </div>
 
-    <div v-if="mesaSelecionada" class="modal">
+    <div v-if="pedidoSelecionado" class="modal">
       <div class="modal-content">
         <span class="close" @click="fecharModal">&times;</span>
-        <h3>Alterar a mesa {{ mesaSelecionada.id }} para {{ novoStatus }}?</h3>
-        <select v-model="novoStatus">
-          <option value="ocupada">Ocupada</option>
-          <option value="finalizada">Finalizada</option>
-          <option value="livre">Livre</option>
-        </select><br><br>
-        <button @click="atualizarStatusMesa(mesaSelecionada.id, novoStatus)">Alterar</button>
-        <button @click="fecharModal">Cancelar</button>
+        <h3>Detalhes do Pedido</h3>
+          <a v-for="item in pedidoSelecionado.itens" :key="item.produto_id">
+            {{ item.nome }} - {{ item.quantidade }} x {{ item.preco }} <br>
+          </a><br>
+        <button @click="concluirPedido(pedidoSelecionado.id)">Concluir Pedido</button>
       </div>
     </div>
   </div>
@@ -73,61 +58,40 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      mesas: [],
-      mesaSelecionada: null,
-      novoStatus: '',
-      pedidos: []
+      pedidos: [],
+      pedidoSelecionado: null,
     };
-  },
-  computed: {
-    mesasVisiveis() {
-      return this.mesas.filter(mesa => mesa.status === 'livre');
-    }
   },
   methods: {
     goToPage(route) {
       this.$router.push(route);
     },
-    async fetchMesas() {
+    async fetchPedidos() {
       try {
-        const response = await axios.get('http://localhost:3000/tables');
-        this.mesas = response.data;
-      } catch (error) {
-        console.error('Erro ao buscar mesas:', error);
-      }
-    },
-    async atualizarStatusMesa(id, status) {
-      try {
-        const response = await axios.put(`http://localhost:3000/tables/${id}`, { status });
-        const mesaAtualizada = response.data;
-        this.mesas = this.mesas.map(mesa => 
-          mesa.id === mesaAtualizada.id ? mesaAtualizada : mesa
-        );
-        this.fecharModal();
-      } catch (error) {
-        console.error('Erro ao atualizar status da mesa:', error);
-      }
-    },
-    selecionarMesa(mesa) {
-      this.mesaSelecionada = mesa;
-      this.novoStatus = mesa.status;
-    },
-    fecharModal() {
-      this.mesaSelecionada = null;
-      this.novoStatus = '';
-    },
-    async verPedidos(tableId) {
-      try {
-        const response = await axios.get(`http://localhost:3000/pedidos/table/${tableId}`);
+        const response = await axios.get('http://localhost:3000/pedidos');
         this.pedidos = response.data;
-        console.log('Pedidos:', this.pedidos); // Debugging line
       } catch (error) {
         console.error('Erro ao buscar pedidos:', error);
+      }
+    },
+    selecionarPedido(pedido) {
+      this.pedidoSelecionado = pedido;
+    },
+    fecharModal() {
+      this.pedidoSelecionado = null;
+    },
+    async concluirPedido(id) {
+      try {
+        await axios.delete(`http://localhost:3000/pedidos/${id}`);
+        this.pedidos = this.pedidos.filter(pedido => pedido.id !== id);
+        this.fecharModal();
+      } catch (error) {
+        console.error('Erro ao concluir pedido:', error);
       }
     }
   },
   mounted() {
-    this.fetchMesas();
+    this.fetchPedidos();
   }
 };
 </script>
@@ -246,7 +210,7 @@ export default {
 }
 
 .andamento {
-  background-color: transparent;
+  background-color: #394F14;
   border: none;
   padding: 10px 20px;
   cursor: pointer;
@@ -263,7 +227,7 @@ export default {
 }
 
 .livre {
-  background-color: #394F14; 
+  background-color: transparent;
   border: none;
   padding: 10px 20px;
   cursor: pointer;
@@ -278,19 +242,20 @@ export default {
   line-height: normal;
 }
 
-.andamento:hover {
+.livre:hover {
   background-color: #4D5E44;
   color: #000;
 }
 
-.mesa-botoes {
+.pedido-botoes {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   margin-top: 2rem;
+ 
 }
 
-.mesa-botoes button {
+.pedido-botoes button {
   width: 10vw;
   height: 10vh;
   font-size: 1.5rem;
@@ -299,20 +264,7 @@ export default {
   cursor: pointer;
   border-radius: 10px;
   transition: background 0.3s;
-}
-
-.mesa-finalizada {
-  background-color: #5fad1f;
-  color: #000;
-}
-
-.mesa-ocupada {
-  background-color: #721818;
-  color: #000;
-}
-
-.mesa-livre{
-  background-color: #394F14;
+  background: #5E8221;
 }
 
 .modal {
@@ -350,19 +302,5 @@ export default {
   color: black;
   text-decoration: none;
   cursor: pointer;
-}
-
-@media (max-width: 768px) {
-  .andamento:hover {
-    background-color: #3C4A35;
-    color: #fff;
-  }
-}
-
-@media (max-width: 480px) {
-  .andamento:hover {
-    background-color: #2B3726;
-    color: #fff;
-  }
 }
 </style>

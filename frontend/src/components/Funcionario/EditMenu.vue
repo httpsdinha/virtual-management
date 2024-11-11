@@ -1,15 +1,18 @@
 <template>
-<div class="container">
+  <div class="container">
     <nav class="menu-lateral">
       <img src="@/assets/logo.png" alt="Logo" class="logo" />
       <hr class="divider" />
       <h1>MENU</h1>
       <div class="menus-botton">
         <button class="transparent-button" @click="goToPage('/funcionario')">
-          COMANDAS
+          MESAS
         </button>
         <button class="transparent-button" @click="goToPage('/alterarmenu')">
           ALTERAR
+        </button>
+        <button class="transparent-button" @click="goToPage('/comandas')">
+          COMANDAS
         </button>
       </div>
     </nav>
@@ -20,7 +23,7 @@
           <h1>ALTERAR</h1>
           <div class="botao-status">
             <button class="editar">EDITAR</button>
-            <button class="adicionar"  @click="goToPage('/adicionarmenu')">ADICIONAR</button>
+            <button class="adicionar" @click="goToPage('/adicionarmenu')">ADICIONAR</button>
           </div>
           <div class="header-botao">
             <button class="header-icon-button" @click="goToPage('/')">
@@ -31,67 +34,67 @@
         <hr class="divider1">
       </header>
       <div class="tipos-button">
-        <button :class="{'active-button': activeButton === 'pizza'}" @click="fetchMenuItems('pizza')">PIZZA</button>
-        <button :class="{'active-button': activeButton === 'bebida'}" @click="fetchMenuItems('bebida')">BEBIDA</button>
+        <button :class="{ 'active-button': activeButton === 'pizza' }" @click="fetchMenuItems('pizza')">PIZZA</button>
+        <button :class="{ 'active-button': activeButton === 'bebida' }" @click="fetchMenuItems('bebida')">BEBIDA</button>
       </div>
       <div class="menu-items">
-      <div v-for="item in menuItems" :key="item.id" class="menu-item">
-        <div class="menu-item-content">
-          <div class="menu-item-text">
-            <h2>{{ item.nome }}</h2>
-            <p>{{ item.descricao }}</p>
-            <p>R$ {{ item.preco }}</p>
-          </div>
-            <button class="edit-button" @click="openEditModal(item)" >
-            <img src="@/assets/lapis.png" alt="Edit Icon" class="edit-icon" />
+        <div v-for="item in menuItems" :key="item.id" class="menu-item">
+          <div class="menu-item-content">
+            <div class="menu-item-text">
+              <h2>{{ item.nome }}</h2>
+              <p>{{ item.descricao }}</p>
+              <p>R$ {{ item.preco }}</p>
+            </div>
+            <button class="edit-button" @click="openEditModal(item)">
+              <img src="@/assets/lapis.png" alt="Edit Icon" class="edit-icon" />
             </button>
+          </div>
         </div>
       </div>
-    </div>
-    <div v-if="showModal" class="modal">
-      <div class="modal-content">
-        
-        <span class="close" @click="closeEditModal">&times;</span>
-        <h2>Editar Item</h2>
-        <div class="delete-container">
-        <label class="name" for="nome">Nome:</label>
-        <button @click="deleteItem" class="delete-button">
-          <img src="@/assets/lixo.png" alt="Edit Icon" class="delete-icon" />
-        </button>
-        </div>
-        <input type="text" id="nome" v-model="selectedItem.nome" />
-      <div class="inline-fields">
-        <div class="field">
-        <label for="tipo">Tipo:</label>
-        <select id="tipo" v-model="selectedItem.tipo" required>
+      <div v-if="showModal" class="modal">
+        <div class="modal-content">
+
+          <span class="close" @click="closeEditModal">&times;</span>
+          <h2>Editar Item</h2>
+          <div class="delete-container">
+            <label class="name" for="nome">Nome:</label>
+            <button @click="deleteItem" class="delete-button">
+              <img src="@/assets/lixo.png" alt="Edit Icon" class="delete-icon" />
+            </button>
+          </div>
+          <input type="text" id="nome" v-model="selectedItem.nome" />
+          <div class="inline-fields">
+            <div class="field">
+              <label for="tipo">Tipo:</label>
+              <select id="tipo" v-model="selectedItem.tipo" required>
                 <option value="pizza">Pizza</option>
                 <option value="bebida">Bebida</option>
-        </select>
-        </div>
-        <div class="field">
-        <label for="categoria">Categoria:</label>
-        <select id="categoria" v-model="selectedItem.categoria">
-          <option value="Salgada">Salgada</option>
-          <option value="Doce">Doce</option>
-          <option value="Refrigerante">Refrigerante</option>
-          <option value="Cerveja">Cerveja</option>
-          <option value="Doce">Doce</option>
-          <option value="Agua">Água</option>
-        </select>
-        </div>
-        <div class="field">
-        <label for="preco">Preço:</label>
-        <input type="text" id="preco" v-model="selectedItem.preco" />
-        </div>
-        </div>
-        <label for="descricao">Descrição:</label>
-        <input type="text" maxlength="40" id="descricao" v-model="selectedItem.descricao" />
+              </select>
+            </div>
+            <div class="field">
+              <label for="categoria">Categoria:</label>
+              <select id="categoria" v-model="selectedItem.categoria">
+                <option value="Salgada">Salgada</option>
+                <option value="Doce">Doce</option>
+                <option value="Refrigerante">Refrigerante</option>
+                <option value="Cerveja">Cerveja</option>
+                <option value="Doce">Doce</option>
+                <option value="Agua">Água</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="preco">Preço:</label>
+              <input type="text" id="preco" v-model="selectedItem.preco" />
+            </div>
+          </div>
+          <label for="descricao">Descrição:</label>
+          <input type="text" maxlength="40" id="descricao" v-model="selectedItem.descricao" />
 
-        <button class="salvar" @click="saveChanges">Salvar</button>
-      
+          <button class="salvar" @click="saveChanges">Salvar</button>
+
+        </div>
       </div>
     </div>
-  </div>
   </div>
 </template>
 
@@ -102,7 +105,7 @@ export default {
   data() {
     return {
       menuItems: [],
-      activeButton: 'pizza', 
+      activeButton: 'pizza',
       showModal: false,
       selectedItem: null,
     };
@@ -121,7 +124,7 @@ export default {
       }
     },
     openEditModal(item) {
-      this.selectedItem = { ...item }; 
+      this.selectedItem = { ...item };
       this.showModal = true;
     },
     closeEditModal() {
@@ -133,7 +136,7 @@ export default {
         await axios.put(`http://localhost:3000/menu/update/${this.selectedItem.id}`, this.selectedItem);
         alert("Item atualizado com sucesso!");
         this.closeEditModal();
-        this.fetchMenuItems(this.activeButton); 
+        this.fetchMenuItems(this.activeButton);
       } catch (error) {
         console.error("Erro ao atualizar item:", error);
         alert("Não foi possível atualizar o item. Tente novamente.");
@@ -144,7 +147,7 @@ export default {
         await axios.delete(`http://localhost:3000/menu/delete/${this.selectedItem.id}`);
         alert("Item deletado com sucesso!");
         this.closeEditModal();
-        this.fetchMenuItems(this.activeButton); 
+        this.fetchMenuItems(this.activeButton);
       } catch (error) {
         console.error("Erro ao deletar item:", error);
         alert("Não foi possível deletar o item. Tente novamente.");
@@ -272,7 +275,7 @@ export default {
 }
 
 .editar {
-  background-color: #394F14; 
+  background-color: #394F14;
   border: none;
   padding: 10px 20px;
   cursor: pointer;
@@ -339,7 +342,7 @@ export default {
   justify-content: center;
   align-items: center;
   width: 100%;
-  
+
 }
 
 .menu-item-text {
@@ -369,7 +372,7 @@ h2 {
 }
 
 .edit-icon {
-  width:50%;
+  width: 50%;
   height: 40%;
 }
 
@@ -463,15 +466,18 @@ p {
   height: auto;
 }
 
-input, select {
+input,
+select {
   width: 95%;
   padding: 0.5rem;
   margin-right: 0.5rem;
   margin-bottom: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 0.25rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adiciona sombra aos inputs */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* Adiciona sombra aos inputs */
 }
+
 .salvar {
   background-color: #4a5d23;
   color: #d9d9d9;
